@@ -4,11 +4,11 @@ import { useState, useRef, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import FilmCard from '@/components/FilmCard'
-import { techFilms, industryFilms, artFilms, oscFilms, Film, getEraStyle, FIELDS, FieldTag, POSTERS } from '@/data/films'
+import { techFilms, industryFilms, artFilms, oscFilms, cannesFilms, veniceFilms, berlinFilms, Film, getEraStyle, FIELDS, FieldTag, POSTERS } from '@/data/films'
 
 type Filter = 'all' | 'tech' | 'industry' | 'art'
 
-const ALL_FILMS = [...techFilms, ...industryFilms, ...artFilms, ...oscFilms]
+const ALL_FILMS = [...techFilms, ...industryFilms, ...artFilms, ...oscFilms, ...cannesFilms, ...veniceFilms, ...berlinFilms]
 
 const HERO_FILMS = [
   techFilms.find(f => f.id === 'tech-2001'),
@@ -134,26 +134,43 @@ function HeroCarousel() {
 }
 
 const FIELD_GROUPS: { label: string; tags: FieldTag[] }[] = [
-  { label: '기술 관점', tags: ['편집', '특수효과', '애니메이션', '사운드', '촬영기법'] },
-  { label: '산업 관점', tags: ['프랜차이즈', '블록버스터', '독립영화', '스튜디오'] },
-  { label: '예술 운동', tags: ['표현주의', '누아르', '네오리얼리즘', '누벨바그'] },
-  { label: '4대 영화제', tags: ['아카데미', '칸', '베니스', '베를린'] },
+  { label: '영화 언어를 바꿨다', tags: ['편집', '촬영', '사운드', '시각효과', '애니메이션'] },
+  { label: '산업 구조를 바꿨다', tags: ['스튜디오시대', '뉴할리우드', '블록버스터', '인디필름', '스트리밍'] },
+  { label: '예술의 경계를 넓혔다', tags: ['표현주의', '누아르', '네오리얼리즘', '누벨바그', '세계영화'] },
+  { label: '세계가 선택했다', tags: ['아카데미', '칸', '베니스', '베를린'] },
 ]
+
+const AWARD_TROPHY_IMG: Partial<Record<FieldTag, string>> = {
+  '아카데미': '/trophies/oscar.svg',
+  '칸':       '/trophies/palme.svg',
+  '베니스':   '/trophies/lion.svg',
+  '베를린':   '/trophies/bear.svg',
+}
 
 function FieldTile({ tag }: { tag: FieldTag }) {
   const meta = FIELDS[tag]
   const count = ALL_FILMS.filter(f => f.fields?.includes(tag)).length
+  const trophySrc = AWARD_TROPHY_IMG[tag]
+
   return (
     <Link href={`/fields/${encodeURIComponent(tag)}`}
       className="relative overflow-hidden rounded-xl block"
-      style={{ height: 120, background: meta.bg, border: '1px solid rgba(255,255,255,0.06)', transition: 'transform 0.18s', }}
+      style={{ height: 120, background: meta.bg, border: '1px solid rgba(255,255,255,0.06)', transition: 'transform 0.18s' }}
       onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.02)')}
       onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}
     >
-      <svg viewBox="0 0 240 200" className="absolute inset-0 w-full h-full opacity-25" preserveAspectRatio="xMidYMid slice">
-        <path d={meta.shape} fill={meta.accent} />
-      </svg>
-      <div className="absolute inset-0" style={{ background: `linear-gradient(135deg, ${meta.bg}cc 0%, transparent 60%)` }} />
+      {trophySrc ? (
+        <div className="absolute pointer-events-none"
+          style={{ right: 0, top: 0, bottom: 0, width: 140, display: 'flex', alignItems: 'center', justifyContent: 'flex-end', paddingRight: 12 }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={trophySrc} alt="" style={{ height: 104, width: 'auto', objectFit: 'contain', opacity: 0.55, mixBlendMode: 'luminosity' }} />
+        </div>
+      ) : (
+        <svg viewBox="0 0 240 200" className="absolute inset-0 w-full h-full opacity-25" preserveAspectRatio="xMidYMid slice">
+          <path d={meta.shape} fill={meta.accent} />
+        </svg>
+      )}
+      <div className="absolute inset-0" style={{ background: `linear-gradient(to right, ${meta.bg}ff 40%, ${meta.bg}aa 65%, transparent 100%)` }} />
       <div className="relative z-10 flex flex-col justify-between h-full" style={{ padding: 16 }}>
         <span className="text-[11px] font-medium rounded-full self-start"
           style={{ background: `${meta.accent}22`, color: meta.accent, border: `1px solid ${meta.accent}44`, paddingLeft: 8, paddingRight: 8, paddingTop: 2, paddingBottom: 2 }}>
@@ -178,7 +195,7 @@ function FieldTiles() {
             <p className="text-xs font-medium tracking-widest uppercase" style={{ color: '#4a4a4a', marginBottom: 12 }}>
               {group.label}
             </p>
-            <div className="grid" style={{ gap: 12, gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))' }}>
+            <div className="grid" style={{ gap: 12, gridTemplateColumns: `repeat(${group.tags.length}, 1fr)` }}>
               {group.tags.map(tag => <FieldTile key={tag} tag={tag} />)}
             </div>
           </div>
@@ -387,19 +404,20 @@ function TimelineView({ films }: { films: Film[] }) {
 function ArrowBtn({ dir, onClick, visible }: { dir: 'left' | 'right'; onClick: () => void; visible: boolean }) {
   return (
     <div
-      className="absolute top-0 z-10 flex items-center transition-opacity duration-200"
+      className="absolute top-0 z-10 flex items-center"
       style={{
         [dir]: 0,
         bottom: 32,
-        width: '72px',
+        width: dir === 'right' ? '120px' : '80px',
         background: dir === 'left'
-          ? 'linear-gradient(to right, rgba(10,10,10,0.9) 40%, transparent)'
-          : 'linear-gradient(to left, rgba(10,10,10,0.9) 40%, transparent)',
+          ? 'linear-gradient(to right, rgba(10,10,10,0.95) 30%, transparent)'
+          : 'linear-gradient(to left, rgba(10,10,10,0.85) 20%, transparent)',
         opacity: visible ? 1 : 0,
+        transition: 'opacity 0.2s',
         pointerEvents: visible ? 'auto' : 'none',
         justifyContent: dir === 'left' ? 'flex-start' : 'flex-end',
-        paddingLeft: dir === 'left' ? '8px' : '0',
-        paddingRight: dir === 'right' ? '8px' : '0',
+        paddingLeft: dir === 'left' ? '12px' : '0',
+        paddingRight: dir === 'right' ? '12px' : '0',
       }}
     >
       <button
@@ -432,7 +450,6 @@ function FilmRow({ films, label, count, onMore }: {
   const sectionRef = useRef<HTMLElement>(null)
   const [canLeft, setCanLeft] = useState(false)
   const [canRight, setCanRight] = useState(true)
-  const [rowHovered, setRowHovered] = useState(false)
   const [hovered, setHovered] = useState<{ film: Film; rect: DOMRect } | null>(null)
   const leaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
@@ -465,13 +482,12 @@ function FilmRow({ films, label, count, onMore }: {
     <section
       ref={sectionRef}
       style={{ marginBottom: 96, position: 'relative' }}
-      onMouseEnter={() => setRowHovered(true)}
-      onMouseLeave={() => { setRowHovered(false); setHovered(null) }}
+      onMouseLeave={() => setHovered(null)}
     >
       {/* Row header */}
       <div className="flex items-baseline justify-between" style={{ paddingLeft: 56, paddingRight: 56, marginBottom: 20 }}>
         <div className="flex items-baseline" style={{ gap: 12 }}>
-          <h2 className="text-base font-medium" style={{ color: '#f0ede8' }}>{label}</h2>
+          <h2 className="text-xl font-medium" style={{ color: '#f0ede8' }}>{label}</h2>
           <span className="text-xs" style={{ color: '#8a8580' }}>{count}편</span>
         </div>
         <button
@@ -487,7 +503,7 @@ function FilmRow({ films, label, count, onMore }: {
 
       {/* Scroll row */}
       <div className="relative" style={{ zIndex: 1 }}>
-        <ArrowBtn dir="left" onClick={() => scroll('left')} visible={rowHovered && canLeft} />
+        <ArrowBtn dir="left" onClick={() => scroll('left')} visible={canLeft} />
         <div
           ref={scrollRef}
           onScroll={updateArrows}
@@ -504,7 +520,7 @@ function FilmRow({ films, label, count, onMore }: {
             </div>
           ))}
         </div>
-        <ArrowBtn dir="right" onClick={() => scroll('right')} visible={rowHovered && canRight} />
+        <ArrowBtn dir="right" onClick={() => scroll('right')} visible={canRight} />
       </div>
 
       {/* Expanded hover card */}

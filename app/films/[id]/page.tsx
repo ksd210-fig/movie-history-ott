@@ -1,10 +1,10 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
-import { techFilms, industryFilms, artFilms, oscFilms, getEraStyle, POSTERS } from '@/data/films'
+import { techFilms, industryFilms, artFilms, oscFilms, cannesFilms, veniceFilms, berlinFilms, getEraStyle, POSTERS } from '@/data/films'
 import PlatformIcon from '@/components/PlatformIcon'
 
-const allFilms = [...techFilms, ...industryFilms, ...artFilms, ...oscFilms]
+const allFilms = [...techFilms, ...industryFilms, ...artFilms, ...oscFilms, ...cannesFilms, ...veniceFilms, ...berlinFilms]
 
 export function generateStaticParams() {
   return allFilms.map(f => ({ id: f.id }))

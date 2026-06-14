@@ -1,9 +1,9 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
-import { techFilms, industryFilms, artFilms, oscFilms, FIELDS, FieldTag, getEraStyle, POSTERS } from '@/data/films'
+import { techFilms, industryFilms, artFilms, oscFilms, cannesFilms, veniceFilms, berlinFilms, FIELDS, FieldTag, getEraStyle, POSTERS } from '@/data/films'
 
-const ALL_FILMS = [...techFilms, ...industryFilms, ...artFilms, ...oscFilms]
+const ALL_FILMS = [...techFilms, ...industryFilms, ...artFilms, ...oscFilms, ...cannesFilms, ...veniceFilms, ...berlinFilms]
 
 export function generateStaticParams() {
   return (Object.keys(FIELDS) as FieldTag[]).map(tag => ({ tag: encodeURIComponent(tag) }))
@@ -65,7 +65,7 @@ export default async function FieldPage({ params }: { params: Promise<{ tag: str
             return (
               <Link key={film.id} href={`/films/${film.id}`} className="group block rounded-xl overflow-hidden"
                 style={{ border: '1px solid #2a2a2a' }}>
-                <div className="relative" style={{ height: 224, background: era.bg }}>
+                <div className="relative" style={{ aspectRatio: '2/3', background: era.bg }}>
                   {poster ? (
                     <Image
                       src={poster}

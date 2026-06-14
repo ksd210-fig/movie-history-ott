@@ -70,6 +70,9 @@ export default function FilmCard({ film, large = false, onHoverChange }: {
           <p className="text-[11px] leading-relaxed" style={{ color: '#8a8580' }}>{film.description}</p>
         </div>
       </div>
+      <div style={{ paddingLeft: 10, paddingRight: 10, paddingTop: 6, paddingBottom: 6, background: '#0f0f0f' }}>
+        <p className="text-[11px]" style={{ color: '#5a5a5a' }}>{film.year}</p>
+      </div>
     </Link>
   )
 }
