@@ -134,9 +134,15 @@ function HeroCarousel() {
 }
 
 const FIELD_GROUPS: { label: string; tags: FieldTag[] }[] = [
-  { label: '영화 언어를 바꿨다', tags: ['편집', '촬영', '시각효과', '애니메이션'] },
-  { label: '예술의 경계를 넓혔다', tags: ['표현주의', '소비에트몽타주', '포에틱리얼리즘', '누아르', '네오리얼리즘', '누벨바그', '브리티시뉴웨이브', '다이렉트시네마', '뉴저먼시네마', '타이완뉴시네마', '홍콩느와르', '도그마95', '루마니아뉴웨이브'] },
-  { label: '영화제 수상작', tags: ['아카데미', '칸', '베니스', '베를린'] },
+  { label: '기술 관점으로 보는 영화사', tags: ['편집', '촬영', '시각효과', '애니메이션'] },
+]
+
+const AWARD_TAGS: FieldTag[] = ['아카데미', '칸', '베니스', '베를린']
+
+const ART_MOVEMENT_TAGS: FieldTag[] = [
+  '표현주의', '소비에트몽타주', '포에틱리얼리즘', '누아르', '네오리얼리즘',
+  '누벨바그', '브리티시뉴웨이브', '다이렉트시네마', '뉴저먼시네마',
+  '타이완뉴시네마', '홍콩느와르', '도그마95', '루마니아뉴웨이브',
 ]
 
 const INDUSTRY_TAGS: FieldTag[] = ['스튜디오시대', '뉴할리우드', '블록버스터', '인디필름', '스트리밍']
@@ -150,37 +156,38 @@ const AWARD_TROPHY_IMG: Partial<Record<FieldTag, string>> = {
 
 function FieldTile({ tag }: { tag: FieldTag }) {
   const meta = FIELDS[tag]
-  const count = ALL_FILMS.filter(f => f.fields?.includes(tag)).length
   const trophySrc = AWARD_TROPHY_IMG[tag]
 
   return (
     <Link href={`/fields/${encodeURIComponent(tag)}`}
       className="relative overflow-hidden rounded-xl block"
-      style={{ height: 120, background: meta.bg, border: '1px solid rgba(255,255,255,0.06)', transition: 'transform 0.18s' }}
-      onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.02)')}
-      onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}
+      style={{ height: 130, background: meta.bg, border: `1px solid ${meta.accent}22`, transition: 'transform 0.18s, box-shadow 0.18s' }}
+      onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.02)'; e.currentTarget.style.boxShadow = `0 8px 28px ${meta.accent}30` }}
+      onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.boxShadow = 'none' }}
     >
       {trophySrc ? (
-        <div className="absolute pointer-events-none"
-          style={{ right: 0, top: 0, bottom: 0, width: 140, display: 'flex', alignItems: 'center', justifyContent: 'flex-end', paddingRight: 12 }}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={trophySrc} alt="" style={{ height: 104, width: 'auto', objectFit: 'contain', opacity: 0.55, mixBlendMode: 'luminosity' }} />
-        </div>
+        <>
+          {/* Accent radial glow */}
+          <div className="absolute pointer-events-none" style={{
+            right: 0, top: 0, bottom: 0, width: '65%',
+            background: `radial-gradient(ellipse at 85% 50%, ${meta.accent}28 0%, ${meta.accent}08 50%, transparent 75%)`,
+          }} />
+          {/* Trophy */}
+          <div className="absolute pointer-events-none" style={{ right: 24, top: 0, bottom: 0, display: 'flex', alignItems: 'center' }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={trophySrc} alt="" style={{ height: 88, maxWidth: 128, width: 'auto', objectFit: 'contain', opacity: 0.88, filter: 'drop-shadow(0 2px 12px rgba(0,0,0,0.6))' }} />
+          </div>
+          {/* Text protection gradient */}
+          <div className="absolute inset-0" style={{ background: `linear-gradient(to right, ${meta.bg} 38%, ${meta.bg}e8 55%, ${meta.bg}70 72%, transparent 100%)` }} />
+        </>
       ) : (
         <svg viewBox="0 0 240 200" className="absolute inset-0 w-full h-full opacity-25" preserveAspectRatio="xMidYMid slice">
           <path d={meta.shape} fill={meta.accent} />
         </svg>
       )}
-      <div className="absolute inset-0" style={{ background: `linear-gradient(to right, ${meta.bg}ff 40%, ${meta.bg}aa 65%, transparent 100%)` }} />
-      <div className="relative z-10 flex flex-col justify-between h-full" style={{ padding: 16 }}>
-        <span className="text-[11px] font-medium rounded-full self-start"
-          style={{ background: `${meta.accent}22`, color: meta.accent, border: `1px solid ${meta.accent}44`, paddingLeft: 8, paddingRight: 8, paddingTop: 2, paddingBottom: 2 }}>
-          {count}편
-        </span>
-        <div>
-          <p className="text-[14px] font-semibold leading-tight" style={{ color: '#f0ede8' }}>{meta.label}</p>
-          <p className="text-[11px]" style={{ color: '#8a8580', marginTop: 2 }}>{meta.desc}</p>
-        </div>
+      <div className="relative z-10 flex flex-col justify-center h-full" style={{ paddingLeft: 20, paddingRight: 20, paddingTop: 16, paddingBottom: 16 }}>
+        <p className="text-[15px] font-semibold leading-tight" style={{ color: '#f0ede8' }}>{meta.label}</p>
+        <p className="text-[11px]" style={{ color: '#6a6560', marginTop: 5 }}>{meta.desc}</p>
       </div>
     </Link>
   )
@@ -241,20 +248,15 @@ function FieldTileScrollRow({ label, tags }: { label: string; tags: FieldTag[] }
 function FieldTiles() {
   return (
     <div>
-      <h2 className="text-base font-medium"
-        style={{ color: '#f0ede8', marginBottom: 32, paddingLeft: 56, paddingRight: 56 }}>
-        분야별 영화의 역사
-      </h2>
       <div className="flex flex-col" style={{ gap: 40 }}>
         {FIELD_GROUPS.map(group =>
           group.tags.length > 5 ? (
             <FieldTileScrollRow key={group.label} label={group.label} tags={group.tags} />
           ) : (
             <div key={group.label} style={{ paddingLeft: 56, paddingRight: 56 }}>
-              <p className="text-xs font-medium tracking-widest uppercase"
-                style={{ color: '#4a4a4a', marginBottom: 12 }}>
+              <h2 className="text-2xl font-bold" style={{ color: '#f0ede8', letterSpacing: '-0.01em', marginBottom: 20 }}>
                 {group.label}
-              </p>
+              </h2>
               <div className="grid" style={{ gap: 12, gridTemplateColumns: `repeat(${group.tags.length}, 1fr)` }}>
                 {group.tags.map(tag => <FieldTile key={tag} tag={tag} />)}
               </div>
@@ -544,15 +546,14 @@ function FilmRow({ films, label, count, onMore, era, desc }: {
   return (
     <section
       ref={sectionRef}
-      style={{ marginBottom: 96, position: 'relative' }}
+      style={{ marginBottom: 56, position: 'relative' }}
       onMouseLeave={() => setHovered(null)}
     >
       {/* Row header */}
       <div style={{ paddingLeft: 56, paddingRight: 56, marginBottom: 20 }}>
         <div className="flex items-baseline justify-between">
           <div className="flex items-baseline" style={{ gap: 12 }}>
-            <h2 className="text-xl font-medium" style={{ color: '#f0ede8' }}>{label}</h2>
-            <span className="text-xs" style={{ color: '#8a8580' }}>{count}편</span>
+            <h2 className="text-2xl font-bold" style={{ color: '#f0ede8', letterSpacing: '-0.01em' }}>{label}</h2>
           </div>
           <button
             onClick={onMore}
@@ -565,9 +566,9 @@ function FilmRow({ films, label, count, onMore, era, desc }: {
           </button>
         </div>
         {(era || desc) && (
-          <p className="text-xs" style={{ color: '#5a5a5a', marginTop: 6, display: 'flex', gap: 10, alignItems: 'center' }}>
-            {era && <span style={{ color: '#6a6560', fontVariantNumeric: 'tabular-nums' }}>{era}</span>}
-            {era && desc && <span style={{ color: '#3a3a3a' }}>·</span>}
+          <p className="text-sm" style={{ color: '#8a8580', marginTop: 6, display: 'flex', gap: 10, alignItems: 'center' }}>
+            {era && <span style={{ color: '#8a8580', fontVariantNumeric: 'tabular-nums' }}>{era}</span>}
+            {era && desc && <span style={{ color: '#4a4a4a' }}>·</span>}
             {desc && <span>{desc}</span>}
           </p>
         )}
@@ -677,18 +678,10 @@ function EraDropdown({ era, setEra }: { era: string | null; setEra: (v: string |
 
 export default function Page() {
   const [filter, setFilter] = useState<Filter>('all')
-  const [era, setEra] = useState<string | null>(null)
   const [view, setView] = useState<'home' | 'timeline'>('home')
 
-  const applyEraFilter = (films: Film[]) => {
-    if (!era) return films
-    const range = ERA_LABELS.find(e => e.label === era)
-    if (!range) return films
-    return films.filter(f => f.year >= range.years[0] && f.year <= range.years[1])
-  }
-
-  const filteredArt = applyEraFilter(artFilms)
-  const filteredByTag = (tag: FieldTag) => applyEraFilter(ALL_FILMS.filter(f => f.fields?.includes(tag))).sort((a, b) => a.year - b.year)
+  const filteredArt = artFilms
+  const filteredByTag = (tag: FieldTag) => ALL_FILMS.filter(f => f.fields?.includes(tag)).sort((a, b) => a.year - b.year)
 
   return (
     <div className="min-h-screen" style={{ background: '#0a0a0a' }}>
@@ -696,7 +689,7 @@ export default function Page() {
         style={{ paddingLeft: 56, paddingRight: 56, background: 'rgba(10,10,10,0.95)', borderBottom: '1px solid #1e1e1e', backdropFilter: 'blur(8px)' }}>
         <div className="flex items-center flex-none" style={{ gap: 20 }}>
           <span className="text-sm font-medium tracking-widest" style={{ color: '#e8630a' }}>Fig.1</span>
-          <span className="text-sm font-medium" style={{ color: '#f0ede8' }}>영화의 역사</span>
+          <span className="text-sm font-medium" style={{ color: '#f0ede8' }}>Movie History</span>
         </div>
         <div className="flex items-center flex-none" style={{ gap: 12 }}>
           {/* View toggle */}
@@ -740,7 +733,6 @@ export default function Page() {
               </svg>
             </button>
           </div>
-          <EraDropdown era={era} setEra={setEra} />
         </div>
       </header>
 
@@ -749,10 +741,32 @@ export default function Page() {
       <div style={{ marginTop: 64 }} />
 
       {view === 'timeline' ? (
-        <TimelineView films={ALL_FILMS} />
+        <TimelineView films={ALL_FILMS.filter((f, i, arr) => arr.findIndex(x => x.title === f.title && x.year === f.year) === i)} />
       ) : filter === 'all' ? (
         <>
           {INDUSTRY_TAGS.map(tag => {
+            const films = filteredByTag(tag)
+            return films.length > 0 ? (
+              <FilmRow
+                key={tag}
+                films={films}
+                label={FIELDS[tag].label}
+                count={films.length}
+                era={FIELDS[tag].era}
+                desc={FIELDS[tag].desc}
+                onMore={() => { location.href = `/fields/${encodeURIComponent(tag)}` }}
+              />
+            ) : null
+          })}
+          <div style={{ paddingLeft: 56, paddingRight: 56, marginBottom: 20 }}>
+            <p className="text-2xl font-bold" style={{ color: '#f0ede8', marginBottom: 20, letterSpacing: '-0.01em' }}>역대 영화제 수상작</p>
+            <div className="grid" style={{ gap: 12, gridTemplateColumns: 'repeat(4, 1fr)' }}>
+              {AWARD_TAGS.map(tag => <FieldTile key={tag} tag={tag} />)}
+            </div>
+          </div>
+          <div style={{ height: 64 }} />
+          <div style={{ height: 32 }} />
+          {ART_MOVEMENT_TAGS.map(tag => {
             const films = filteredByTag(tag)
             return films.length > 0 ? (
               <FilmRow

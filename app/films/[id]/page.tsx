@@ -33,7 +33,7 @@ export default async function FilmPage({ params }: { params: Promise<{ id: strin
           <span className="text-lg" style={{ color: '#8a8580' }}>←</span>
           <span className="text-sm font-medium tracking-widest" style={{ color: '#e8630a' }}>Fig.1</span>
           <span className="text-sm" style={{ color: '#3a3a3a' }}>/</span>
-          <span className="text-sm" style={{ color: '#8a8580' }}>영화의 역사</span>
+          <span className="text-sm" style={{ color: '#8a8580' }}>Movie History</span>
         </Link>
       </header>
 
@@ -92,19 +92,30 @@ export default async function FilmPage({ params }: { params: Promise<{ id: strin
               {film.description}
             </p>
 
-            {film.streaming && film.streaming.length > 0 && (
-              <div style={{ marginTop: 16 }}>
-                <p className="text-xs" style={{ color: '#4a4a4a', marginBottom: 12 }}>지금 볼 수 있는 곳</p>
-                <div className="flex items-end" style={{ gap: 16 }}>
-                  {film.streaming.map(s => (
-                    <PlatformIcon key={s.platform} platform={s.platform} url={s.url} />
-                  ))}
-                </div>
-              </div>
-            )}
+            <div style={{ marginTop: 16 }}>
+              <p className="text-xs" style={{ color: '#4a4a4a', marginBottom: 12 }}>어디서 볼 수 있을까?</p>
+              <a
+                href={`https://www.justwatch.com/kr/search?q=${encodeURIComponent(film.title)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center text-sm font-medium justwatch-btn"
+                style={{
+                  background: '#1a1a1a',
+                  border: '1px solid #2a2a2a',
+                  color: '#c0bdb8',
+                  paddingLeft: 14, paddingRight: 14, paddingTop: 8, paddingBottom: 8,
+                  borderRadius: 6, gap: 8, textDecoration: 'none',
+                }}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+                </svg>
+                JustWatch에서 찾기
+              </a>
+            </div>
 
             <div className="flex items-center" style={{ gap: 16, marginTop: 16 }}>
-              <span className="text-xs" style={{ color: '#4a4a4a' }}>Fig.1 · 영화의 역사</span>
+              <span className="text-xs" style={{ color: '#4a4a4a' }}>Fig.1 · Movie History</span>
             </div>
           </div>
         </div>

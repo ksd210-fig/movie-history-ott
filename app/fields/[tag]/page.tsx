@@ -27,7 +27,7 @@ export default async function FieldPage({ params }: { params: Promise<{ tag: str
           <span className="text-lg" style={{ color: '#8a8580' }}>←</span>
           <span className="text-sm font-medium tracking-widest" style={{ color: '#e8630a' }}>Fig.1</span>
           <span className="text-sm" style={{ color: '#3a3a3a' }}>/</span>
-          <span className="text-sm" style={{ color: '#8a8580' }}>영화의 역사</span>
+          <span className="text-sm" style={{ color: '#8a8580' }}>Movie History</span>
           <span className="text-sm" style={{ color: '#3a3a3a' }}>/</span>
           <span className="text-sm" style={{ color: '#f0ede8' }}>{meta.label}</span>
         </Link>
@@ -45,14 +45,21 @@ export default async function FieldPage({ params }: { params: Promise<{ tag: str
           style={{ background: `linear-gradient(to bottom, transparent, #0a0a0a)` }} />
 
         <div className="relative z-10" style={{ paddingLeft: 56, paddingRight: 56, paddingTop: 64, paddingBottom: 64 }}>
-          <span className="text-xs font-medium rounded-full inline-block"
-            style={{ background: `${meta.accent}22`, color: meta.accent, border: `1px solid ${meta.accent}44`, paddingLeft: 10, paddingRight: 10, paddingTop: 4, paddingBottom: 4, marginBottom: 16 }}>
-            {films.length}편
-          </span>
-          <h1 className="text-4xl font-medium" style={{ color: '#f0ede8', marginTop: 12, marginBottom: 8 }}>
+          <div style={{ marginBottom: 16 }}>
+            <span className="text-xs font-medium rounded-full inline-block"
+              style={{ background: `${meta.accent}22`, color: meta.accent, border: `1px solid ${meta.accent}44`, paddingLeft: 10, paddingRight: 10, paddingTop: 4, paddingBottom: 4 }}>
+              {meta.era ?? tag}
+            </span>
+          </div>
+          <h1 className="text-4xl font-bold" style={{ color: '#f0ede8', marginBottom: 8, letterSpacing: '-0.02em' }}>
             {meta.label}
           </h1>
-          <p className="text-base" style={{ color: '#8a8580' }}>{meta.desc}</p>
+          <p className="text-base" style={{ color: '#6a6560', marginBottom: meta.context ? 32 : 0 }}>{meta.desc}</p>
+          {meta.context && (
+            <p className="text-base leading-relaxed max-w-2xl" style={{ color: '#a0a09a', borderLeft: `2px solid ${meta.accent}60`, paddingLeft: 20 }}>
+              {meta.context}
+            </p>
+          )}
         </div>
       </div>
 
