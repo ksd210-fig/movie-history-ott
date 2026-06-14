@@ -5,7 +5,7 @@ export type StreamingLink = {
   url: string
 }
 
-export type FieldTag = '편집' | '촬영' | '사운드' | '시각효과' | '애니메이션' | '스튜디오시대' | '뉴할리우드' | '블록버스터' | '인디필름' | '스트리밍' | '표현주의' | '누아르' | '네오리얼리즘' | '누벨바그' | '세계영화' | '아카데미' | '칸' | '베니스' | '베를린'
+export type FieldTag = '편집' | '촬영' | '사운드' | '시각효과' | '애니메이션' | '스튜디오시대' | '뉴할리우드' | '블록버스터' | '인디필름' | '스트리밍' | '소비에트몽타주' | '포에틱리얼리즘' | '표현주의' | '누아르' | '네오리얼리즘' | '브리티시뉴웨이브' | '다이렉트시네마' | '누벨바그' | '뉴저먼시네마' | '홍콩느와르' | '도그마95' | '타이완뉴시네마' | '루마니아뉴웨이브' | '세계영화' | '아카데미' | '칸' | '베니스' | '베를린'
 
 export type Film = {
   id: string
@@ -18,7 +18,7 @@ export type Film = {
   streaming?: StreamingLink[]
 }
 
-export const FIELDS: Record<FieldTag, { label: string; desc: string; bg: string; accent: string; shape: string }> = {
+export const FIELDS: Record<FieldTag, { label: string; desc: string; era?: string; bg: string; accent: string; shape: string }> = {
   // 그룹1: 영화 언어를 바꿨다
   '편집':       { label: '편집의 역사',       desc: '몽타주부터 디지털 편집까지',       bg: '#0e1535', accent: '#4f7be8', shape: 'M0 80 Q60 20 120 60 Q180 100 240 40 L240 200 L0 200Z' },
   '촬영':       { label: '촬영의 역사',       desc: '렌즈와 빛이 만든 영화 언어',       bg: '#1e1a10', accent: '#d4a853', shape: 'M0 0 L160 0 L240 200 L80 200Z' },
@@ -26,16 +26,25 @@ export const FIELDS: Record<FieldTag, { label: string; desc: string; bg: string;
   '시각효과':   { label: '시각효과의 역사',   desc: '미니어처에서 버추얼 프로덕션까지', bg: '#1a0830', accent: '#a855f7', shape: 'M120 10 L200 80 L160 160 L80 160 L40 80Z' },
   '애니메이션': { label: '애니메이션의 역사', desc: '셀 애니메이션에서 3D까지',         bg: '#2a1200', accent: '#f97316', shape: 'M180 200 A90 90 0 1 0 180 20 A90 90 0 0 0 180 200Z' },
   // 그룹2: 산업 구조를 바꿨다
-  '스튜디오시대': { label: '스튜디오 시스템', desc: '1920~50년대 메이저 스튜디오 독점기', bg: '#1e1200', accent: '#f59e0b', shape: 'M0 0 L240 0 L240 120 Q120 200 0 120Z' },
-  '뉴할리우드':   { label: '뉴 할리우드',     desc: '1967~1976 작가주의가 산업을 뒤흔든 시대', bg: '#0a1a0a', accent: '#4ade80', shape: 'M10 190 L10 80 Q10 10 80 10 L230 10 L230 190Z' },
-  '블록버스터':   { label: '블록버스터',       desc: '죠스 이후 여름 시장을 지배한 대작들', bg: '#0a0a1e', accent: '#eab308', shape: 'M0 200 L120 10 L240 200Z' },
-  '인디필름':     { label: '인디 필름',        desc: '저예산으로 산업을 뒤집은 독립영화들', bg: '#0a180a', accent: '#22c55e', shape: 'M20 20 L220 20 L220 100 L120 160 L20 100Z' },
-  '스트리밍':     { label: '스트리밍 시대',    desc: '넷플릭스·애플TV+가 바꾼 배급 혁명', bg: '#100a1e', accent: '#c084fc', shape: 'M0 120 Q60 40 120 80 Q180 120 240 40 L240 200 L0 200Z' },
+  '스튜디오시대': { label: '스튜디오 시스템', era: '1920–1950s', desc: '메이저 스튜디오가 스타·장르·배급을 독점한 황금기', bg: '#1e1200', accent: '#f59e0b', shape: 'M0 0 L240 0 L240 120 Q120 200 0 120Z' },
+  '뉴할리우드':   { label: '뉴 할리우드',     era: '1967–1980',  desc: '작가주의 감독들이 스튜디오 시스템을 뒤흔든 반란', bg: '#0a1a0a', accent: '#4ade80', shape: 'M10 190 L10 80 Q10 10 80 10 L230 10 L230 190Z' },
+  '블록버스터':   { label: '블록버스터',       era: '1975–',      desc: '죠스·스타워즈 이후 여름 시장을 지배한 이벤트 영화', bg: '#0a0a1e', accent: '#eab308', shape: 'M0 200 L120 10 L240 200Z' },
+  '인디필름':     { label: '인디 필름',        era: '1980s–',     desc: '저예산으로 메이저를 위협한 독립영화의 반격', bg: '#0a180a', accent: '#22c55e', shape: 'M20 20 L220 20 L220 100 L120 160 L20 100Z' },
+  '스트리밍':     { label: '스트리밍 시대',    era: '2013–',      desc: '넷플릭스·애플TV+가 바꾼 영화 배급의 새 질서', bg: '#100a1e', accent: '#c084fc', shape: 'M0 120 Q60 40 120 80 Q180 120 240 40 L240 200 L0 200Z' },
   // 그룹3: 예술의 경계를 넓혔다
-  '표현주의':     { label: '독일 표현주의',       desc: '빛과 그림자, 공포와 심리의 미학',  bg: '#120008', accent: '#d946a8', shape: 'M0 0 L120 200 L240 0 M60 100 L180 100' },
-  '누아르':       { label: '필름 누아르',         desc: '어둠 속 팜 파탈과 범죄의 미학',    bg: '#0a0a0a', accent: '#f5c842', shape: 'M0 200 L120 0 L240 200 M0 100 L240 100' },
-  '네오리얼리즘': { label: '이탈리아 네오리얼리즘', desc: '비전문 배우와 로케이션의 혁명',   bg: '#0f1500', accent: '#a3e635', shape: 'M0 160 Q60 80 120 120 Q180 160 240 60 L240 200 L0 200Z' },
-  '누벨바그':     { label: '프랑스 누벨바그',     desc: '점프컷과 즉흥으로 만든 시네마',   bg: '#00080f', accent: '#38bdf8', shape: 'M0 100 L80 20 L160 140 L240 40 L240 200 L0 200Z' },
+  '소비에트몽타주':  { label: '소비에트 몽타주',      desc: '충돌하는 이미지가 의미를 만드는 법',        bg: '#0f0000', accent: '#ef4444', shape: 'M0 100 L80 10 L160 100 L80 190Z M80 10 L160 100 L240 10 L160 190Z' },
+  '포에틱리얼리즘':  { label: '포에틱 리얼리즘',      desc: '안개와 시, 프랑스가 만든 서정적 사실주의',   bg: '#0a0810', accent: '#c4b5fd', shape: 'M0 120 Q80 40 160 100 Q200 130 240 80 L240 200 L0 200Z' },
+  '표현주의':        { label: '독일 표현주의',         desc: '빛과 그림자, 공포와 심리의 미학',            bg: '#120008', accent: '#d946a8', shape: 'M0 0 L120 200 L240 0 M60 100 L180 100' },
+  '누아르':          { label: '필름 누아르',           desc: '어둠 속 팜 파탈과 범죄의 미학',              bg: '#0a0a0a', accent: '#f5c842', shape: 'M0 200 L120 0 L240 200 M0 100 L240 100' },
+  '네오리얼리즘':    { label: '이탈리아 네오리얼리즘', desc: '비전문 배우와 로케이션의 혁명',              bg: '#0f1500', accent: '#a3e635', shape: 'M0 160 Q60 80 120 120 Q180 160 240 60 L240 200 L0 200Z' },
+  '브리티시뉴웨이브': { label: '브리티시 뉴 웨이브',  desc: '노동 계층의 분노를 스크린으로 끌고 온 영국', bg: '#00080a', accent: '#fb923c', shape: 'M0 60 L240 60 L240 140 L0 140Z M0 100 L240 100' },
+  '다이렉트시네마':  { label: '다이렉트 시네마',       desc: '삼각대 없이, 각본 없이, 현실만으로',         bg: '#080808', accent: '#e2e8f0', shape: 'M120 20 L240 60 L200 180 L40 180 L0 60Z' },
+  '누벨바그':        { label: '프랑스 누벨바그',       desc: '점프컷과 즉흥으로 만든 시네마',              bg: '#00080f', accent: '#38bdf8', shape: 'M0 100 L80 20 L160 140 L240 40 L240 200 L0 200Z' },
+  '뉴저먼시네마':    { label: '뉴 저먼 시네마',        desc: '전후 독일이 스크린으로 자신을 직시하다',     bg: '#080a00', accent: '#84cc16', shape: 'M0 40 L80 10 L160 40 L240 10 L240 160 L160 190 L80 160 L0 190Z' },
+  '홍콩느와르':      { label: '홍콩 느와르',            desc: '의리와 총격, 슬로모션으로 완성한 영웅 서사',   bg: '#0a0008', accent: '#f97316', shape: 'M0 200 L60 60 L120 140 L180 20 L240 140 L240 200Z' },
+  '도그마95':        { label: '도그마 95',             desc: '카메라 한 대, 자연광, 인공음악 금지',         bg: '#0a0a0a', accent: '#f1f5f9', shape: 'M60 20 L180 20 L220 100 L180 180 L60 180 L20 100Z' },
+  '타이완뉴시네마':  { label: '타이완 뉴 시네마',      desc: '허우 샤오시엔과 에드워드 양, 섬의 기억',     bg: '#080a08', accent: '#f59e0b', shape: 'M0 80 Q60 20 120 60 Q180 100 240 40 L240 200 L0 200Z' },
+  '루마니아뉴웨이브': { label: '루마니아 뉴 웨이브',  desc: '공산주의 이후 루마니아가 세계 영화를 바꾸다', bg: '#0a0800', accent: '#fca5a5', shape: 'M20 20 L220 20 L200 100 L220 180 L20 180 L40 100Z' },
   '세계영화':     { label: '세계 영화',           desc: '할리우드 바깥에서 온 걸작들',     bg: '#0a0a14', accent: '#f472b6', shape: 'M120 20 Q200 60 200 120 Q200 180 120 180 Q40 180 40 120 Q40 60 120 20Z' },
   // 그룹4: 세계가 선택했다
   '아카데미': { label: '아카데미 작품상',  desc: '오스카가 선택한 그해의 영화',       bg: '#1a1400', accent: '#f5c518', shape: 'M120 10 L130 70 L190 70 L140 105 L160 165 L120 130 L80 165 L100 105 L50 70 L110 70Z' },
@@ -67,7 +76,7 @@ export const techFilms: Film[] = [
   },
   {
     id: 'tech-battleship', title: '전함 포템킨', year: 1925, keyword: '몽타주', category: 'tech',
-    fields: ['편집'],
+    fields: ['편집', '소비에트몽타주'],
     description: '몽타주 편집의 대표작. 편집이 감정을 설계할 수 있다는 것을 보여줌.',
     streaming: [yt('Battleship Potemkin 1925'), wa('전함 포템킨')],
   },
@@ -469,6 +478,135 @@ export const artFilms: Film[] = [
     description: '트뤼포. 스틸 사진, 빠른 편집, 서술자 목소리. 자유로운 시간 조작과 카메라 움직임.',
     streaming: [wa('쥴 앤 짐'), mb('Jules and Jim')],
   },
+  // 소비에트 몽타주
+  {
+    id: 'art-manwithcam', title: '카메라를 든 사나이', year: 1929, keyword: '소비에트 몽타주', category: 'tech',
+    fields: ['소비에트몽타주', '편집', '촬영'],
+    description: '지가 베르토프. 자막도 내레이션도 없이 카메라만으로 도시의 하루를 편집하다. 다큐멘터리와 실험영화의 원점.',
+    streaming: [yt('Man with a Movie Camera 1929'), wa('카메라를 든 사나이')],
+  },
+  // 뉴 저먼 시네마
+  {
+    id: 'art-aguirre', title: '아귀레, 신의 분노', year: 1972, keyword: '뉴 저먼 시네마', category: 'tech',
+    fields: ['뉴저먼시네마', '세계영화'],
+    description: '베르너 헤어조크. 아마존 정글, 실제 급류. 정복의 광기를 클라우스 킨스키의 몸으로 담아낸 걸작.',
+    streaming: [wa('아귀레 신의 분노'), mb('Aguirre the Wrath of God')],
+  },
+  {
+    id: 'art-alifear', title: '불안은 영혼을 잠식한다', year: 1974, keyword: '뉴 저먼 시네마', category: 'industry',
+    fields: ['뉴저먼시네마', '세계영화'],
+    description: '파스빈더. 독일 노파와 모로코 이민자의 사랑. 외국인 혐오와 계급 억압을 직시한 정치 멜로드라마.',
+    streaming: [wa('불안은 영혼을 잠식한다'), mb('Ali Fear Eats the Soul')],
+  },
+  {
+    id: 'art-wings', title: '베를린 천사의 시', year: 1987, keyword: '뉴 저먼 시네마', category: 'tech',
+    fields: ['뉴저먼시네마', '세계영화', '촬영'],
+    description: '빔 벤더스. 분단 베를린을 흑백으로 내려다보는 천사. 인간이 된다는 것의 의미를 찾는 시적 영화.',
+    streaming: [wa('베를린 천사의 시'), mb('Wings of Desire')],
+  },
+  // 포에틱 리얼리즘
+  {
+    id: 'art-portshadows', title: '안개 항구', year: 1938, keyword: '포에틱 리얼리즘', category: 'tech',
+    fields: ['포에틱리얼리즘', '세계영화'],
+    description: '마르셀 카르네. 탈영병과 팜 파탈, 안개 낀 항구. 체념과 아름다움이 공존하는 프랑스 시적 리얼리즘의 원형.',
+    streaming: [yt('Port of Shadows 1938'), mb('port-of-shadows')],
+  },
+  {
+    id: 'art-gameofthings', title: '게임의 규칙', year: 1939, keyword: '포에틱 리얼리즘', category: 'tech',
+    fields: ['포에틱리얼리즘', '세계영화'],
+    description: '장 르누아르. 프랑스 상류층의 사냥 주말. 계급의 허위를 파헤친 영화. 개봉 당시 야유와 금지, 사후 영화사 10대 걸작.',
+    streaming: [yt('The Rules of the Game 1939 Renoir'), mb('the-rules-of-the-game')],
+  },
+  {
+    id: 'art-paradise', title: '천국의 아이들', year: 1945, keyword: '포에틱 리얼리즘', category: 'tech',
+    fields: ['포에틱리얼리즘', '세계영화'],
+    description: '마르셀 카르네. 나치 점령기 파리에서 몰래 찍은 3시간의 서사시. 19세기 파리와 판토마임, 사랑과 상실.',
+    streaming: [wa('천국의 아이들'), mb('children-of-paradise')],
+  },
+  // 브리티시 뉴 웨이브
+  {
+    id: 'art-lookangrily', title: '성난 얼굴로 돌아보라', year: 1959, keyword: '브리티시 뉴 웨이브', category: 'tech',
+    fields: ['브리티시뉴웨이브', '세계영화'],
+    description: '토니 리처드슨. 존 오스본 원작. 분노한 청년 지미 포터, 중산층 허위와 계급 질서에 대한 정면 도전.',
+    streaming: [yt('Look Back in Anger 1959'), mb('look-back-in-anger')],
+  },
+  {
+    id: 'art-satnight', title: '토요일 밤과 일요일 아침', year: 1960, keyword: '브리티시 뉴 웨이브', category: 'tech',
+    fields: ['브리티시뉴웨이브', '세계영화'],
+    description: '카렐 라이스. 노팅엄 공장 노동자 아서 시튼. 로케이션, 비전문 배우, 사회적 현실. 영국판 네오리얼리즘 선언.',
+    streaming: [yt('Saturday Night Sunday Morning 1960'), mb('saturday-night-and-sunday-morning')],
+  },
+  // 다이렉트 시네마
+  {
+    id: 'art-chronicle', title: '어느 여름의 기록', year: 1961, keyword: '다이렉트 시네마', category: 'tech',
+    fields: ['다이렉트시네마', '세계영화'],
+    description: '장 루슈 & 에드가르 모랭. 파리 시민에게 묻는다: 당신은 행복합니까? 카메라 앞 실제 반응을 담은 시네마 베리테의 탄생.',
+    streaming: [yt('Chronicle of a Summer 1961'), mb('chronicle-of-a-summer')],
+  },
+  {
+    id: 'art-dontlookback', title: '돌아보지 마라', year: 1967, keyword: '다이렉트 시네마', category: 'tech',
+    fields: ['다이렉트시네마', '세계영화'],
+    description: 'D.A. 페네베이커. 1965년 밥 딜런 영국 순회공연. 흔들리는 핸드헬드, 자막 없는 인터뷰. 다큐멘터리의 문법을 바꾸다.',
+    streaming: [yt('Bob Dylan Dont Look Back 1967'), mb('dont-look-back')],
+  },
+  // 홍콩 느와르
+  {
+    id: 'art-bettertomorrow', title: '영웅본색', year: 1986, keyword: '홍콩 느와르', category: 'industry',
+    fields: ['홍콩느와르', '세계영화'],
+    description: '오우삼. 저우룬파. 배신당한 조직 세계, 형제의 의리와 총격. 홍콩 느와르의 시작을 선언한 오리지널.',
+    streaming: [wa('영웅본색'), mb('a-better-tomorrow')],
+  },
+  {
+    id: 'art-thekiller', title: '첩혈쌍웅', year: 1989, keyword: '홍콩 느와르', category: 'industry',
+    fields: ['홍콩느와르', '세계영화'],
+    description: '오우삼. 마지막 임무를 위한 킬러와 그를 쫓는 형사. 비둘기, 교회, 슬로모션 총격. 홍콩 느와르 미학의 완성.',
+    streaming: [wa('첩혈쌍웅'), mb('the-killer')],
+  },
+  {
+    id: 'art-chungkingexpress', title: '중경삼림', year: 1994, keyword: '홍콩 느와르', category: 'tech',
+    fields: ['홍콩느와르', '세계영화', '촬영'],
+    description: '왕가위. 두 편의 실연 이야기. 핸드헬드, 스텝프린팅, 과포화 색감. 느와르의 멜랑꼴리를 도시 서정으로 전환.',
+    streaming: [wa('중경삼림'), mb('chungking-express')],
+  },
+  {
+    id: 'art-infernalaffairs', title: '무간도', year: 2002, keyword: '홍콩 느와르', category: 'industry',
+    fields: ['홍콩느와르', '세계영화'],
+    description: '유위강·맥조휘. 조직에 잠입한 형사와 경찰에 잠입한 조직원. 홍콩 느와르의 집대성. 마틴 스코세이지가 리메이크.',
+    streaming: [wa('무간도'), mb('infernal-affairs')],
+  },
+  // 도그마 95
+  {
+    id: 'art-festen', title: '셀레브레이션', year: 1998, keyword: '도그마 95', category: 'industry',
+    fields: ['도그마95', '세계영화'],
+    description: '토마스 빈터베르. 아버지 생일파티에서 터져 나온 성폭력 고백. 핸드헬드 DV 캠코더, 자연광, 후시녹음 금지. 도그마 선언 1호작.',
+    streaming: [wa('셀레브레이션'), mb('the-celebration')],
+  },
+  // 타이완 뉴 시네마
+  {
+    id: 'art-dustwind', title: '연연풍진', year: 1986, keyword: '타이완 뉴 시네마', category: 'tech',
+    fields: ['타이완뉴시네마', '세계영화'],
+    description: '허우 샤오시엔. 광산 마을 소년과 소녀. 고정 카메라 롱쇼트, 비직업 배우, 시간의 흐름. 대만 뉴시네마의 본질.',
+    streaming: [mb('dust-in-the-wind'), wa('연연풍진')],
+  },
+  {
+    id: 'art-summerdayboy', title: '고령가 소년 살인사건', year: 1991, keyword: '타이완 뉴 시네마', category: 'tech',
+    fields: ['타이완뉴시네마', '세계영화'],
+    description: '에드워드 양. 1960년대 타이베이 10대 갱단. 4시간의 서사시. 국가 폭력과 청춘의 붕괴를 담은 아시아 영화사의 정점.',
+    streaming: [wa('고령가 소년 살인사건'), mb('a-brighter-summer-day')],
+  },
+  // 루마니아 뉴 웨이브
+  {
+    id: 'art-lazarescu', title: '라자레스쿠 씨의 죽음', year: 2005, keyword: '루마니아 뉴 웨이브', category: 'industry',
+    fields: ['루마니아뉴웨이브', '세계영화'],
+    description: '크리스티 푸이우. 루마니아 노인 한 명이 밤새 병원을 전전하다 죽어간다. 롱테이크, 무채색 현실, 시스템의 냉혹함.',
+    streaming: [mb('the-death-of-mr-lazarescu'), wa('라자레스쿠')],
+  },
+  {
+    id: 'art-policeadj', title: '경찰, 형용사', year: 2009, keyword: '루마니아 뉴 웨이브', category: 'industry',
+    fields: ['루마니아뉴웨이브', '세계영화'],
+    description: '코르넬리우 포룸보이우. 대마초 소지 청년을 감시하는 형사. 단어의 정의를 두고 벌이는 논쟁. 언어가 권력이 되는 순간.',
+    streaming: [mb('police-adjective'), wa('경찰 형용사')],
+  },
 ]
 
 export const cannesFilms: Film[] = [
@@ -509,7 +647,7 @@ export const cannesFilms: Film[] = [
   { id: 'can-missing',        title: '미싱',                       year: 1982, keyword: '황금종려상', category: 'industry', fields: ['칸', '세계영화'], description: '코스타-가브라스. 잭 레먼. 칠레 쿠데타 중 실종된 미국인 아들. 욜과 공동 수상. 반미 논란.', streaming: [] },
   { id: 'can-yol',            title: '욜',                         year: 1982, keyword: '황금종려상', category: 'industry', fields: ['칸', '세계영화'], description: '일마즈 귀네이. 감옥에서 연출한 터키 쿠르드 영화. 석방된 죄수 5인의 귀향. 미싱과 공동 수상.', streaming: [mb('Yol')] },
   { id: 'can-narayama',       title: '나라야마 부시코',            year: 1983, keyword: '황금종려상', category: 'industry', fields: ['칸', '세계영화'], description: '이마무라 쇼헤이. 가난한 산촌. 70세 노인을 산에 버리는 풍습. 인간의 원초적 생존 본능.', streaming: [mb('The Ballad of Narayama')] },
-  { id: 'can-paristexas',     title: '파리, 텍사스',               year: 1984, keyword: '황금종려상', category: 'industry', fields: ['칸', '세계영화'], description: '빔 벤더스. 사막에서 돌아온 남자. 상실과 재회, 고독의 로드무비.', streaming: [wa('파리, 텍사스'), mb('Paris Texas')] },
+  { id: 'can-paristexas',     title: '파리, 텍사스',               year: 1984, keyword: '황금종려상', category: 'industry', fields: ['칸', '세계영화', '뉴저먼시네마'], description: '빔 벤더스. 사막에서 돌아온 남자. 상실과 재회, 고독의 로드무비.', streaming: [wa('파리, 텍사스'), mb('Paris Texas')] },
   { id: 'can-fatheraway',     title: '아버지 출장 중',             year: 1985, keyword: '황금종려상', category: 'industry', fields: ['칸', '세계영화'], description: '에밀 쿠스투리차. 유고슬라비아. 정치 숙청된 아버지를 기다리는 소년의 시선. 발칸의 서정성.', streaming: [] },
   { id: 'can-mission',        title: '미션',                       year: 1986, keyword: '황금종려상', category: 'industry', fields: ['칸', '세계영화'], description: '롤랑 조페. 18세기 남미 예수회 선교사. 로버트 드 니로. 엔니오 모리코네 음악.', streaming: [nf('미션'), wa('미션')] },
   { id: 'can-satansun',       title: '사탄의 태양 아래서',         year: 1987, keyword: '황금종려상', category: 'industry', fields: ['칸', '세계영화'], description: '모리스 피알라. 조르주 베르나노스 원작. 신앙과 의심 사이의 사제. 수상 발표 시 관객들이 야유.', streaming: [] },
@@ -527,14 +665,14 @@ export const cannesFilms: Film[] = [
   { id: 'can-tasteofcherry',  title: '체리 향기',                  year: 1997, keyword: '황금종려상', category: 'industry', fields: ['칸', '세계영화'], description: '압바스 키아로스타미. 이란. 자살하려는 남자가 흙을 덮어줄 사람을 찾는 여정. 생의 의지를 묻다.', streaming: [mb('Taste of Cherry')] },
   { id: 'can-eternity',       title: '영원과 하루',                year: 1998, keyword: '황금종려상', category: 'industry', fields: ['칸', '세계영화'], description: '테오 앙겔로풀로스. 그리스. 죽어가는 시인이 어린 알바니아 난민과 보내는 마지막 하루.', streaming: [mb('Eternity and a Day')] },
   { id: 'can-rosetta',        title: '로제타',                     year: 1999, keyword: '황금종려상', category: 'industry', fields: ['칸', '세계영화'], description: '다르덴 형제. 벨기에. 일자리를 원하는 소녀의 절박한 하루. 핸드헬드 카메라가 인물 뒤를 쫓다.', streaming: [mb('Rosetta')] },
-  { id: 'can-dancer',         title: '어둠 속의 댄서',             year: 2000, keyword: '황금종려상', category: 'industry', fields: ['칸', '세계영화'], description: '라스 폰 트리에. 비요크 주연. 시력을 잃어가는 이민 여성의 뮤지컬 판타지.', streaming: [wa('어둠 속의 댄서'), mb('Dancer in the Dark')] },
+  { id: 'can-dancer',         title: '어둠 속의 댄서',             year: 2000, keyword: '황금종려상', category: 'industry', fields: ['칸', '세계영화', '도그마95'], description: '라스 폰 트리에. 비요크 주연. 시력을 잃어가는 이민 여성의 뮤지컬 판타지.', streaming: [wa('어둠 속의 댄서'), mb('Dancer in the Dark')] },
   { id: 'can-sonsroom',       title: '아들의 방',                  year: 2001, keyword: '황금종려상', category: 'industry', fields: ['칸', '세계영화'], description: '난니 모레티. 이탈리아 정신과 의사 가족의 아들 사망. 일상적 슬픔과 회복의 서사.', streaming: [] },
   { id: 'can-pianist',        title: '피아니스트',                 year: 2002, keyword: '황금종려상', category: 'industry', fields: ['칸', '세계영화'], description: '폴란스키. 애드리언 브로디. 2차 세계대전 바르샤바 게토에서 살아남은 피아니스트.', streaming: [nf('피아니스트'), wa('피아니스트')] },
   { id: 'can-elephant',       title: '엘리펀트',                   year: 2003, keyword: '황금종려상', category: 'industry', fields: ['칸', '인디필름'], description: '거스 밴 샌트. 컬럼바인 총기사건 영감. 고등학생들의 평범한 하루 끝의 폭력. 미니멀한 롱테이크의 충격.', streaming: [wa('엘리펀트')] },
   { id: 'can-fahrenheit',     title: '화씨 9/11',                  year: 2004, keyword: '황금종려상', category: 'industry', fields: ['칸', '세계영화'], description: '마이클 무어. 부시 행정부와 이라크 전쟁 비판 다큐멘터리. 역대 최고 흥행 다큐. 정치 논란의 중심.', streaming: [] },
   { id: 'can-enfant',         title: '아이',                       year: 2005, keyword: '황금종려상', category: 'industry', fields: ['칸', '세계영화'], description: '다르덴 형제. 갓난아기를 팔아넘기려는 아버지. 두 번째 황금종려상. 도덕적 추락과 구원.', streaming: [mb("L'Enfant")] },
   { id: 'can-barley',         title: '보리밭을 흔드는 바람',       year: 2006, keyword: '황금종려상', category: 'industry', fields: ['칸', '세계영화'], description: '켄 로치. 아일랜드 독립 전쟁. 형제가 서로 다른 길을 선택하다. 이데올로기 앞에서 갈라지는 우정.', streaming: [wa('보리밭을 흔드는 바람')] },
-  { id: 'can-4months',        title: '4개월, 3주 그리고 2일',      year: 2007, keyword: '황금종려상', category: 'industry', fields: ['칸', '세계영화'], description: '크리스티안 문지우. 루마니아 공산 정권 시대 불법 낙태. 핸드헬드 롱테이크로 숨막히는 긴장.', streaming: [mb('4 Months, 3 Weeks and 2 Days')] },
+  { id: 'can-4months',        title: '4개월, 3주 그리고 2일',      year: 2007, keyword: '황금종려상', category: 'industry', fields: ['칸', '세계영화', '루마니아뉴웨이브'], description: '크리스티안 문지우. 루마니아 공산 정권 시대 불법 낙태. 핸드헬드 롱테이크로 숨막히는 긴장.', streaming: [mb('4 Months, 3 Weeks and 2 Days')] },
   { id: 'can-class',          title: '클래스',                     year: 2008, keyword: '황금종려상', category: 'industry', fields: ['칸', '세계영화'], description: '로랑 캉테. 파리 이민자 밀집 중학교 교실. 교사와 학생의 현실. 비전문 배우 다큐멘터리 스타일.', streaming: [] },
   { id: 'can-whiteribbon',    title: '하얀 리본',                  year: 2009, keyword: '황금종려상', category: 'industry', fields: ['칸', '세계영화'], description: '미카엘 하네케. 1차 세계대전 전 독일 마을의 수상한 사건들. 파시즘의 기원을 묻다.', streaming: [wa('하얀 리본'), mb('The White Ribbon')] },
   { id: 'can-boonmee',        title: '엉클 분미',                  year: 2010, keyword: '황금종려상', category: 'industry', fields: ['칸', '세계영화'], description: '아피찻퐁 위라세타쿤. 태국. 죽어가는 남자 곁에 모이는 전생의 혼령들. 불교 윤회와 밀림의 신비.', streaming: [mb('Uncle Boonmee Who Can Recall His Past Lives')] },
@@ -575,18 +713,18 @@ export const veniceFilms: Film[] = [
   { id: 'ven-sandra',          title: '산드라',                         year: 1965, keyword: '황금사자상', category: 'industry', fields: ['베니스', '세계영화'], description: '루키노 비스콘티. 클라우디아 카르디날레 주연. 고향으로 돌아온 여성이 마주하는 가족의 비밀. 오이디푸스 신화의 재해석.', streaming: [] },
   { id: 'ven-battleofalgiers', title: '알제리 전투',                    year: 1966, keyword: '황금사자상', category: 'industry', fields: ['베니스', '세계영화'], description: '질로 폰테코르보. 알제리 독립전쟁의 다큐멘터리적 재현. 식민지 저항 영화의 교과서.', streaming: [mb('The Battle of Algiers'), wa('알제리 전투')] },
   { id: 'ven-belledejour',     title: '벨 드 주르',                     year: 1967, keyword: '황금사자상', category: 'industry', fields: ['베니스', '세계영화'], description: '루이스 부뉴엘. 카트린 드뇌브. 낮에는 매춘부, 밤에는 상류층 아내. 욕망과 이중성의 에로티시즘.', streaming: [mb('Belle de Jour'), wa('벨 드 주르')] },
-  { id: 'ven-artists',         title: '서커스단의 예술가들',            year: 1968, keyword: '황금사자상', category: 'industry', fields: ['베니스', '세계영화'], description: '알렉산더 클루게. 독일 누벨바그의 기수. 서커스 단원의 삶을 빌려 예술·현실·자본주의를 비틀다.', streaming: [] },
+  { id: 'ven-artists',         title: '서커스단의 예술가들',            year: 1968, keyword: '황금사자상', category: 'industry', fields: ['베니스', '세계영화', '뉴저먼시네마'], description: '알렉산더 클루게. 독일 누벨바그의 기수. 서커스 단원의 삶을 빌려 예술·현실·자본주의를 비틀다.', streaming: [] },
   // 1969–1979: 황금사자상 수여 중단
   // 1980s
   { id: 'ven-atlanticcity',    title: '애틀랜틱 시티',                  year: 1980, keyword: '황금사자상', category: 'industry', fields: ['베니스', '세계영화'], description: '루이 말. 버트 랭카스터. 도박 도시에서 늙어가는 갱스터와 젊은 여자. 과거의 영광과 현재의 쇠락.', streaming: [mb('Atlantic City')] },
-  { id: 'ven-stateofthings',   title: '사물의 상태',                    year: 1982, keyword: '황금사자상', category: 'industry', fields: ['베니스', '세계영화'], description: '빔 벤더스. 포르투갈 해변에서 영화를 찍다 필름이 떨어진 감독 일행. 영화 만들기에 대한 영화.', streaming: [mb('The State of Things')] },
+  { id: 'ven-stateofthings',   title: '사물의 상태',                    year: 1982, keyword: '황금사자상', category: 'industry', fields: ['베니스', '세계영화', '뉴저먼시네마'], description: '빔 벤더스. 포르투갈 해변에서 영화를 찍다 필름이 떨어진 감독 일행. 영화 만들기에 대한 영화.', streaming: [mb('The State of Things')] },
   { id: 'ven-firstnamecarmen', title: '카르멘이라는 이름',              year: 1983, keyword: '황금사자상', category: 'industry', fields: ['베니스', '세계영화', '누벨바그'], description: '장-뤽 고다르. 비제의 카르멘을 빌려 자기 자신에 대한 영화를 찍다. 이야기·음악·이미지가 충돌하는 고다르 중기의 정수.', streaming: [mb('First Name: Carmen')] },
   { id: 'ven-quietsun',        title: '고요한 태양의 해',               year: 1984, keyword: '황금사자상', category: 'industry', fields: ['베니스', '세계영화'], description: '크시슈토프 자누시. 2차 대전 후 폴란드와 독일 여성의 불가능한 사랑. 역사의 상처 위에서 피어나는 감정.', streaming: [] },
   { id: 'ven-vagabond',        title: '방랑자',                         year: 1985, keyword: '황금사자상', category: 'industry', fields: ['베니스', '세계영화'], description: '아녜스 바르다. 들판에서 발견된 한 여성의 시체. 그녀를 기억하는 이들의 증언으로 재구성되는 삶. 바르다의 걸작.', streaming: [mb('Vagabond')] },
   { id: 'ven-greenray',        title: '초록 빛',                        year: 1986, keyword: '황금사자상', category: 'industry', fields: ['베니스', '세계영화'], description: '에릭 로메르. 혼자 남겨진 파리 여자의 여름 휴가. 즉흥 연기와 자연광으로 찍은 우연의 영화.', streaming: [mb('The Green Ray')] },
   { id: 'ven-aurevoir',        title: '안녕, 아이들',                   year: 1987, keyword: '황금사자상', category: 'industry', fields: ['베니스', '세계영화'], description: '루이 말. 나치 점령 하 프랑스 기숙학교. 유대인 소년과의 우정과 배신. 감독 자신의 유년기 트라우마.', streaming: [mb('Au Revoir les Enfants'), wa('안녕, 아이들')] },
   { id: 'ven-holydrinker',     title: '성스러운 주정꾼의 전설',         year: 1988, keyword: '황금사자상', category: 'industry', fields: ['베니스', '세계영화'], description: '에르만노 올미. 파리 노숙자 주정꾼이 낯선 이에게 돈을 빌려 새 삶을 꿈꾼다. 조제프 로트 원작. 은총과 구원의 우화.', streaming: [] },
-  { id: 'ven-cityofsadness',   title: '비정성시',                       year: 1989, keyword: '황금사자상', category: 'industry', fields: ['베니스', '세계영화'], description: '허우 샤오시엔. 1945년 일제 패망 이후 대만의 혼란. 말 못하는 남자의 시선으로 기록한 섬의 역사. 대만 뉴웨이브의 정점.', streaming: [mb('A City of Sadness'), wa('비정성시')] },
+  { id: 'ven-cityofsadness',   title: '비정성시',                       year: 1989, keyword: '황금사자상', category: 'industry', fields: ['베니스', '세계영화', '타이완뉴시네마'], description: '허우 샤오시엔. 1945년 일제 패망 이후 대만의 혼란. 말 못하는 남자의 시선으로 기록한 섬의 역사. 대만 뉴웨이브의 정점.', streaming: [mb('A City of Sadness'), wa('비정성시')] },
   // 1990s
   { id: 'ven-rosencrantz',     title: '로젠크란츠와 길덴스턴은 죽었다', year: 1990, keyword: '황금사자상', category: 'industry', fields: ['베니스', '세계영화'], description: '톰 스토파드. 셰익스피어 햄릿의 조연 두 명이 주인공인 블랙 코미디. 게리 올드만, 팀 로스 주연.', streaming: [mb('Rosencrantz & Guildenstern Are Dead')] },
   { id: 'ven-urga',            title: '우르가',                         year: 1991, keyword: '황금사자상', category: 'industry', fields: ['베니스', '세계영화'], description: '니키타 미할코프. 몽골 초원에서 고장난 트럭 기사와 유목민 가족의 만남. 근대화와 전통 사이.', streaming: [mb('Urga')] },
@@ -647,7 +785,7 @@ export const berlinFilms: Film[] = [
   { id: 'ber-ascent',         title: '등반',                   year: 1977, keyword: '황금곰상', category: 'industry', fields: ['베를린', '세계영화'], description: '라리사 셰피트코. 소련. 2차 대전 벨라루스, 두 빨치산의 탈출과 배신. 고통과 구원의 종교적 알레고리. 감독 사후 걸작으로 재조명.', streaming: [mb('The Ascent')] },
   { id: 'ber-palermo',        title: '팔레르모 혹은 볼프스부르크', year: 1980, keyword: '황금곰상', category: 'industry', fields: ['베를린', '세계영화'], description: '베르너 슈뢰터. 시칠리아에서 독일 공장 도시로 이주한 이민자. 정착의 고통과 문화적 이방감. 이탈리아–독일 이주의 초상.', streaming: [] },
   { id: 'ber-deprisa',        title: '빨리 빨리',              year: 1981, keyword: '황금곰상', category: 'industry', fields: ['베를린', '세계영화'], description: '카를로스 사우라. 마드리드 변두리 청년들의 절도와 질주. 비전문 배우를 기용한 스페인 사회적 리얼리즘.', streaming: [] },
-  { id: 'ber-veronikavoss',   title: '베로니카 포스',          year: 1982, keyword: '황금곰상', category: 'industry', fields: ['베를린', '세계영화'], description: '라이너 베르너 파스빈더 최후작. 나치 시대 유명 여배우의 몰락과 마약. 독일 과거사에 대한 냉정한 시선.', streaming: [mb('Veronika Voss')] },
+  { id: 'ber-veronikavoss',   title: '베로니카 포스',          year: 1982, keyword: '황금곰상', category: 'industry', fields: ['베를린', '세계영화', '뉴저먼시네마'], description: '라이너 베르너 파스빈더 최후작. 나치 시대 유명 여배우의 몰락과 마약. 독일 과거사에 대한 냉정한 시선.', streaming: [mb('Veronika Voss')] },
   { id: 'ber-beehive',        title: '벌집',                   year: 1982, keyword: '황금곰상', category: 'industry', fields: ['베를린', '세계영화'], description: '마리오 카무스. 1940년대 스페인 내전 직후 카스티야 소도시. 소녀의 시선으로 본 패전과 억압. 스페인 민주화 이후의 과거 고찰.', streaming: [] },
   { id: 'ber-lovestreams',    title: '사랑의 흐름',            year: 1984, keyword: '황금곰상', category: 'industry', fields: ['베를린', '인디필름'], description: '존 카사베티스. 외로운 남매의 이틀. 사랑이란 무엇인가를 묻는 카사베티스 최후의 자전적 작품.', streaming: [mb('Love Streams')] },
   { id: 'ber-wetherby',       title: '웨더비',                 year: 1985, keyword: '황금곰상', category: 'industry', fields: ['베를린', '세계영화'], description: '데이비드 헤어. 바네사 레드그레이브. 영국 북부 마을에서 낯선 청년이 스스로 목숨을 끊는다. 억압된 감정과 폭력의 기원.', streaming: [] },
@@ -680,7 +818,7 @@ export const berlinFilms: Film[] = [
   // 2010s
   { id: 'ber-aseparation',    title: '씨',                     year: 2011, keyword: '황금곰상', category: 'industry', fields: ['베를린', '세계영화'], description: '아스가르 파르하디. 이란. 부부 이혼 소송에 얽힌 거짓말과 도덕적 딜레마. 베를린과 아카데미 외국어영화상 동시 수상.', streaming: [nf('씨'), wa('씨')] },
   { id: 'ber-cesarmustdie',   title: '카이사르는 죽어야 한다', year: 2012, keyword: '황금곰상', category: 'industry', fields: ['베를린', '세계영화'], description: '타비아니 형제. 로마 교도소 수감자들이 셰익스피어의 율리우스 카이사르를 연습한다. 픽션과 다큐의 경계.', streaming: [mb('Caesar Must Die')] },
-  { id: 'ber-childpose',      title: '어머니',                 year: 2013, keyword: '황금곰상', category: 'industry', fields: ['베를린', '세계영화'], description: '칼린 피터 네처. 루마니아. 아들의 교통사고를 무마하려는 상류층 어머니. 지배와 죄책감, 계급의 민낯.', streaming: [mb('Child\'s Pose')] },
+  { id: 'ber-childpose',      title: '어머니',                 year: 2013, keyword: '황금곰상', category: 'industry', fields: ['베를린', '세계영화', '루마니아뉴웨이브'], description: '칼린 피터 네처. 루마니아. 아들의 교통사고를 무마하려는 상류층 어머니. 지배와 죄책감, 계급의 민낯.', streaming: [mb('Child\'s Pose')] },
   { id: 'ber-blackcoal',      title: '검은 석탄, 박빙',        year: 2014, keyword: '황금곰상', category: 'industry', fields: ['베를린', '세계영화'], description: '디아오이난. 10년 전 미제 살인 사건을 추적하는 전직 형사. 중국 느와르의 정수.', streaming: [mb('Black Coal Thin Ice'), wa('검은 석탄')] },
   { id: 'ber-taxitehran',     title: '택시 테헤란',            year: 2015, keyword: '황금곰상', category: 'industry', fields: ['베를린', '세계영화'], description: '자파르 파나히. 이란 정부로부터 영화 제작 금지령을 받은 감독이 택시를 운전하며 찍다. 저항의 영화.', streaming: [mb('Taxi'), wa('택시 테헤란')] },
   { id: 'ber-fireatsea',      title: '바다에서 온 불꽃',       year: 2016, keyword: '황금곰상', category: 'industry', fields: ['베를린', '세계영화'], description: '잔프란코 로시. 람페두사 섬. 지중해를 건너오는 난민과 섬 소년의 일상을 교차하는 다큐멘터리.', streaming: [mb('Fire at Sea')] },
@@ -688,7 +826,7 @@ export const berlinFilms: Film[] = [
   { id: 'ber-touchmenot',     title: '터치 미 낫',             year: 2018, keyword: '황금곰상', category: 'industry', fields: ['베를린', '세계영화'], description: '아디나 핀틸리에. 루마니아. 신체 접촉에 대한 두려움을 탐구하는 다큐-픽션 혼합. 관객에게 불편함을 직접 묻다.', streaming: [] },
   { id: 'ber-synonyms',       title: '동의어들',               year: 2019, keyword: '황금곰상', category: 'industry', fields: ['베를린', '세계영화'], description: '나다브 라피드. 이스라엘을 떠나 파리에 온 청년. 언어와 정체성, 이민자의 자아 해체.', streaming: [mb('Synonyms')] },
   { id: 'ber-thereisnoevil',  title: '악은 존재하지 않는다',   year: 2020, keyword: '황금곰상', category: 'industry', fields: ['베를린', '세계영화'], description: '모하마드 라술로프. 이란의 사형 집행을 다룬 4개의 단편. 감독 자신은 출국 금지 상태에서 제작.', streaming: [mb('There Is No Evil')] },
-  { id: 'ber-badluck',        title: '나쁜 운이 날아다니거나', year: 2021, keyword: '황금곰상', category: 'industry', fields: ['베를린', '세계영화'], description: '라두 주데. 루마니아. 포르노 영상이 유출된 교사. 세 파트 구조로 도덕적 판단을 관객에게 돌리는 블랙 코미디.', streaming: [mb('Bad Luck Banging or Loony Porn')] },
+  { id: 'ber-badluck',        title: '나쁜 운이 날아다니거나', year: 2021, keyword: '황금곰상', category: 'industry', fields: ['베를린', '세계영화', '루마니아뉴웨이브'], description: '라두 주데. 루마니아. 포르노 영상이 유출된 교사. 세 파트 구조로 도덕적 판단을 관객에게 돌리는 블랙 코미디.', streaming: [mb('Bad Luck Banging or Loony Porn')] },
   { id: 'ber-alcarras',       title: '알카라스',               year: 2022, keyword: '황금곰상', category: 'industry', fields: ['베를린', '세계영화'], description: '카를라 시몬. 카탈루냐 복숭아 농장 마지막 여름. 가족과 땅, 사라지는 삶의 방식에 대한 조용한 시.', streaming: [nf('알카라스')] },
   // 2020s
   { id: 'ber-onadamant',      title: '아다망 호',              year: 2023, keyword: '황금곰상', category: 'industry', fields: ['베를린', '세계영화'], description: '니콜라 필리베르. 파리 센 강 위의 정신 건강 낮 병동. 환자와 의료진의 일상. 취약한 존재에 대한 온기 어린 시선.', streaming: [] },
@@ -749,6 +887,26 @@ export const POSTERS: Record<string, string> = {
   'art-hiroshima': 'https://image.tmdb.org/t/p/w500/zieczjWnvalaxwX5EQASEx0on5f.jpg',
   'art-breathless': 'https://image.tmdb.org/t/p/w500/9Wx0Wdn2EOqeCZU4SP6tlS3LOml.jpg',
   'art-jules': 'https://image.tmdb.org/t/p/w500/kuFjZlcZhQFDtIjuI3GQJjsQG03.jpg',
+  'art-manwithcam': 'https://image.tmdb.org/t/p/w500/vJgAdgJWX54v0oXfIvhwjlZnmgn.jpg',
+  'art-aguirre': 'https://image.tmdb.org/t/p/w500/qMk93yMo82svW27FEjudgueBMUL.jpg',
+  'art-alifear': 'https://image.tmdb.org/t/p/w500/cRL8j5RhL4YUviwcfTiCVHfrBFM.jpg',
+  'art-wings': 'https://image.tmdb.org/t/p/w500/iZQs2vUeCzvS1KfZJ6uYNCGJBBV.jpg',
+  'art-portshadows': 'https://image.tmdb.org/t/p/w500/2S8O2V50TZlXV8uabOvGUJ1i5CZ.jpg',
+  'art-gameofthings': 'https://image.tmdb.org/t/p/w500/8JOzt7uFZyshcuzCBmYU6CDJL4D.jpg',
+  'art-paradise': 'https://image.tmdb.org/t/p/w500/yiy9stl1jjVhW44ypkWMFDT8Ix3.jpg',
+  'art-lookangrily': 'https://image.tmdb.org/t/p/w500/TCukFyvrXbIVp9KSt5Yr2HFy77.jpg',
+  'art-satnight': 'https://image.tmdb.org/t/p/w500/ifhjfo8lZoJ9dvDQiWcnc3GeFK4.jpg',
+  'art-chronicle': 'https://image.tmdb.org/t/p/w500/5gdzRgZvWPos3p8riPFQLep58zh.jpg',
+  'art-dontlookback': 'https://image.tmdb.org/t/p/w500/2kd5XfH2MhFlChq7DkjxWBLoYPF.jpg',
+  'art-festen': 'https://image.tmdb.org/t/p/w500/2LRzNq41yrY8EjCnD1S8sCCPvKk.jpg',
+  'art-dustwind': 'https://image.tmdb.org/t/p/w500/9QbsT3gkG0WdchoDY8kqIwcVN0i.jpg',
+  'art-summerdayboy': 'https://image.tmdb.org/t/p/w500/3l8fOAwiN3N5n3hHnZ51eog7Zu2.jpg',
+  'art-lazarescu': 'https://image.tmdb.org/t/p/w500/c3B7GwMYgNi15VMdcKZawgt6mf5.jpg',
+  'art-policeadj': 'https://image.tmdb.org/t/p/w500/yiimBQLll8l6SXyNjder7ToilDi.jpg',
+  'art-bettertomorrow':   'https://image.tmdb.org/t/p/w500/uxZIWxOm2yonHyjLARzW37aEZjF.jpg',
+  'art-thekiller':        'https://image.tmdb.org/t/p/w500/8hTxlSqMAHBXAh1eB69ir0BXhzE.jpg',
+  'art-chungkingexpress': 'https://image.tmdb.org/t/p/w500/43I9DcNoCzpyzK8JCkJYpHqHqGG.jpg',
+  'art-infernalaffairs':  'https://image.tmdb.org/t/p/w500/qdlwFWn2YdLzw5KHpMpzRY9BI7r.jpg',
   // Academy Award Best Picture winners
   'osc-wings':       'https://image.tmdb.org/t/p/w500/kEl6KCBgdmT1Nex3ka0EIWAOmtm.jpg',
   'osc-broadway':    'https://image.tmdb.org/t/p/w500/giq8GJs8YGMzHxeKxNSuwzAdd1c.jpg',

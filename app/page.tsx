@@ -6,7 +6,7 @@ import Image from 'next/image'
 import FilmCard from '@/components/FilmCard'
 import { techFilms, industryFilms, artFilms, oscFilms, cannesFilms, veniceFilms, berlinFilms, Film, getEraStyle, FIELDS, FieldTag, POSTERS } from '@/data/films'
 
-type Filter = 'all' | 'tech' | 'industry' | 'art'
+type Filter = 'all' | 'art'
 
 const ALL_FILMS = [...techFilms, ...industryFilms, ...artFilms, ...oscFilms, ...cannesFilms, ...veniceFilms, ...berlinFilms]
 
@@ -134,11 +134,12 @@ function HeroCarousel() {
 }
 
 const FIELD_GROUPS: { label: string; tags: FieldTag[] }[] = [
-  { label: '영화 언어를 바꿨다', tags: ['편집', '촬영', '사운드', '시각효과', '애니메이션'] },
-  { label: '산업 구조를 바꿨다', tags: ['스튜디오시대', '뉴할리우드', '블록버스터', '인디필름', '스트리밍'] },
-  { label: '예술의 경계를 넓혔다', tags: ['표현주의', '누아르', '네오리얼리즘', '누벨바그', '세계영화'] },
-  { label: '세계가 선택했다', tags: ['아카데미', '칸', '베니스', '베를린'] },
+  { label: '영화 언어를 바꿨다', tags: ['편집', '촬영', '시각효과', '애니메이션'] },
+  { label: '예술의 경계를 넓혔다', tags: ['표현주의', '소비에트몽타주', '포에틱리얼리즘', '누아르', '네오리얼리즘', '누벨바그', '브리티시뉴웨이브', '다이렉트시네마', '뉴저먼시네마', '타이완뉴시네마', '홍콩느와르', '도그마95', '루마니아뉴웨이브'] },
+  { label: '영화제 수상작', tags: ['아카데미', '칸', '베니스', '베를린'] },
 ]
+
+const INDUSTRY_TAGS: FieldTag[] = ['스튜디오시대', '뉴할리우드', '블록버스터', '인디필름', '스트리밍']
 
 const AWARD_TROPHY_IMG: Partial<Record<FieldTag, string>> = {
   '아카데미': '/trophies/oscar.svg',
@@ -185,21 +186,81 @@ function FieldTile({ tag }: { tag: FieldTag }) {
   )
 }
 
+function FieldTileScrollRow({ label, tags }: { label: string; tags: FieldTag[] }) {
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const [canLeft, setCanLeft] = useState(false)
+  const [canRight, setCanRight] = useState(true)
+
+  const updateArrows = useCallback(() => {
+    const el = scrollRef.current
+    if (!el) return
+    setCanLeft(el.scrollLeft > 4)
+    setCanRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 4)
+  }, [])
+
+  useEffect(() => {
+    const el = scrollRef.current
+    if (el) el.scrollLeft = 0
+    setCanLeft(false)
+    setCanRight(true)
+  }, [])
+
+  const scroll = (dir: 'left' | 'right') => {
+    const el = scrollRef.current
+    if (!el) return
+    el.scrollBy({ left: dir === 'right' ? el.clientWidth * 0.75 : -el.clientWidth * 0.75, behavior: 'smooth' })
+    setTimeout(updateArrows, 350)
+  }
+
+  return (
+    <div>
+      <p className="text-xs font-medium tracking-widest uppercase"
+        style={{ color: '#4a4a4a', marginBottom: 12, paddingLeft: 56 }}>
+        {label}
+      </p>
+      <div className="relative">
+        {canLeft && <ArrowBtn dir="left" onClick={() => scroll('left')} visible />}
+        <div
+          ref={scrollRef}
+          onScroll={updateArrows}
+          className="flex overflow-x-auto scroll-hide"
+          style={{ paddingLeft: 56, paddingRight: 56, gap: 12, paddingBottom: 8 }}
+        >
+          {tags.map(tag => (
+            <div key={tag} style={{ flexShrink: 0, width: 'calc((100vw - 160px) / 5)' }}>
+              <FieldTile tag={tag} />
+            </div>
+          ))}
+        </div>
+        <ArrowBtn dir="right" onClick={() => scroll('right')} visible={canRight} />
+      </div>
+    </div>
+  )
+}
+
 function FieldTiles() {
   return (
-    <div style={{ paddingLeft: 56, paddingRight: 56 }}>
-      <h2 className="text-base font-medium" style={{ color: '#f0ede8', marginBottom: 32 }}>분야별 영화의 역사</h2>
+    <div>
+      <h2 className="text-base font-medium"
+        style={{ color: '#f0ede8', marginBottom: 32, paddingLeft: 56, paddingRight: 56 }}>
+        분야별 영화의 역사
+      </h2>
       <div className="flex flex-col" style={{ gap: 40 }}>
-        {FIELD_GROUPS.map(group => (
-          <div key={group.label}>
-            <p className="text-xs font-medium tracking-widest uppercase" style={{ color: '#4a4a4a', marginBottom: 12 }}>
-              {group.label}
-            </p>
-            <div className="grid" style={{ gap: 12, gridTemplateColumns: `repeat(${group.tags.length}, 1fr)` }}>
-              {group.tags.map(tag => <FieldTile key={tag} tag={tag} />)}
+        {FIELD_GROUPS.map(group =>
+          group.tags.length > 5 ? (
+            <FieldTileScrollRow key={group.label} label={group.label} tags={group.tags} />
+          ) : (
+            <div key={group.label} style={{ paddingLeft: 56, paddingRight: 56 }}>
+              <p className="text-xs font-medium tracking-widest uppercase"
+                style={{ color: '#4a4a4a', marginBottom: 12 }}>
+                {group.label}
+              </p>
+              <div className="grid" style={{ gap: 12, gridTemplateColumns: `repeat(${group.tags.length}, 1fr)` }}>
+                {group.tags.map(tag => <FieldTile key={tag} tag={tag} />)}
+              </div>
             </div>
-          </div>
-        ))}
+          )
+        )}
       </div>
     </div>
   )
@@ -440,11 +501,13 @@ function ArrowBtn({ dir, onClick, visible }: { dir: 'left' | 'right'; onClick: (
   )
 }
 
-function FilmRow({ films, label, count, onMore }: {
+function FilmRow({ films, label, count, onMore, era, desc }: {
   films: Film[]
   label: string
   count: number
   onMore: () => void
+  era?: string
+  desc?: string
 }) {
   const scrollRef = useRef<HTMLDivElement>(null)
   const sectionRef = useRef<HTMLElement>(null)
@@ -485,20 +548,29 @@ function FilmRow({ films, label, count, onMore }: {
       onMouseLeave={() => setHovered(null)}
     >
       {/* Row header */}
-      <div className="flex items-baseline justify-between" style={{ paddingLeft: 56, paddingRight: 56, marginBottom: 20 }}>
-        <div className="flex items-baseline" style={{ gap: 12 }}>
-          <h2 className="text-xl font-medium" style={{ color: '#f0ede8' }}>{label}</h2>
-          <span className="text-xs" style={{ color: '#8a8580' }}>{count}편</span>
+      <div style={{ paddingLeft: 56, paddingRight: 56, marginBottom: 20 }}>
+        <div className="flex items-baseline justify-between">
+          <div className="flex items-baseline" style={{ gap: 12 }}>
+            <h2 className="text-xl font-medium" style={{ color: '#f0ede8' }}>{label}</h2>
+            <span className="text-xs" style={{ color: '#8a8580' }}>{count}편</span>
+          </div>
+          <button
+            onClick={onMore}
+            className="text-xs transition-colors"
+            style={{ color: '#8a8580', background: 'none', border: 'none', cursor: 'pointer' }}
+            onMouseEnter={e => (e.currentTarget.style.color = '#f0ede8')}
+            onMouseLeave={e => (e.currentTarget.style.color = '#8a8580')}
+          >
+            더보기
+          </button>
         </div>
-        <button
-          onClick={onMore}
-          className="text-xs transition-colors"
-          style={{ color: '#8a8580', background: 'none', border: 'none', cursor: 'pointer' }}
-          onMouseEnter={e => (e.currentTarget.style.color = '#f0ede8')}
-          onMouseLeave={e => (e.currentTarget.style.color = '#8a8580')}
-        >
-          더보기
-        </button>
+        {(era || desc) && (
+          <p className="text-xs" style={{ color: '#5a5a5a', marginTop: 6, display: 'flex', gap: 10, alignItems: 'center' }}>
+            {era && <span style={{ color: '#6a6560', fontVariantNumeric: 'tabular-nums' }}>{era}</span>}
+            {era && desc && <span style={{ color: '#3a3a3a' }}>·</span>}
+            {desc && <span>{desc}</span>}
+          </p>
+        )}
       </div>
 
       {/* Scroll row */}
@@ -615,9 +687,8 @@ export default function Page() {
     return films.filter(f => f.year >= range.years[0] && f.year <= range.years[1])
   }
 
-  const filteredTech = applyEraFilter(techFilms)
-  const filteredIndustry = applyEraFilter(industryFilms)
   const filteredArt = applyEraFilter(artFilms)
+  const filteredByTag = (tag: FieldTag) => applyEraFilter(ALL_FILMS.filter(f => f.fields?.includes(tag))).sort((a, b) => a.year - b.year)
 
   return (
     <div className="min-h-screen" style={{ background: '#0a0a0a' }}>
@@ -681,12 +752,24 @@ export default function Page() {
         <TimelineView films={ALL_FILMS} />
       ) : filter === 'all' ? (
         <>
-          <FilmRow films={filteredTech} label="기술 관점에서 중요한 영화들" count={filteredTech.length} onMore={() => setFilter('tech')} />
-          <FilmRow films={filteredIndustry} label="산업 관점에서 중요한 영화들" count={filteredIndustry.length} onMore={() => setFilter('industry')} />
+          {INDUSTRY_TAGS.map(tag => {
+            const films = filteredByTag(tag)
+            return films.length > 0 ? (
+              <FilmRow
+                key={tag}
+                films={films}
+                label={FIELDS[tag].label}
+                count={films.length}
+                era={FIELDS[tag].era}
+                desc={FIELDS[tag].desc}
+                onMore={() => { location.href = `/fields/${encodeURIComponent(tag)}` }}
+              />
+            ) : null
+          })}
           <FieldTiles />
         </>
       ) : (
-        <FilmGrid films={filter === 'tech' ? filteredTech : filter === 'industry' ? filteredIndustry : filteredArt} />
+        <FilmGrid films={filteredArt} />
       )}
 
       <div style={{ paddingBottom: 80 }} />
