@@ -1,4 +1,4 @@
-import { Platform } from '@/components/PlatformIcon'
+export type Platform = 'netflix' | 'watcha' | 'disney' | 'appletv' | 'wavve' | 'tving' | 'youtube' | 'mubi'
 
 export type StreamingLink = {
   platform: Platform
@@ -1012,6 +1012,16 @@ export const berlinFilms: Film[] = [
   { id: 'ber-onadamant',      title: '아다망 호',              year: 2023, keyword: '황금곰상', category: 'industry', fields: ['베를린', '세계영화'], description: '니콜라 필리베르. 파리 센 강 위의 정신 건강 낮 병동. 환자와 의료진의 일상. 취약한 존재에 대한 온기 어린 시선.', streaming: [] },
   { id: 'ber-dahomey',        title: '다호메이',               year: 2024, keyword: '황금곰상', category: 'industry', fields: ['베를린', '세계영화'], description: '마티 디오프. 프랑스 박물관에서 베냉으로 반환되는 왕국 문화재 26점. 식민지 약탈의 역사와 반환의 의미를 추적하는 다큐.', streaming: [] },
   { id: 'ber-vermiglio',      title: '베르밀리오',             year: 2024, keyword: '황금곰상', category: 'industry', fields: ['베를린', '세계영화'], description: '마우라 델페로. 2차 대전 말기 이탈리아 알프스 산골 마을. 교사 가족의 일 년. 자연과 죽음, 탄생이 교차하는 서정.', streaming: [] },
+]
+
+export const ALL_FILMS: Film[] = [
+  ...techFilms,
+  ...industryFilms,
+  ...artFilms,
+  ...oscFilms,
+  ...cannesFilms,
+  ...veniceFilms,
+  ...berlinFilms,
 ]
 
 export const POSTERS: Record<string, string> = {

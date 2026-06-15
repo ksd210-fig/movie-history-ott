@@ -1,30 +1,81 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
-import { techFilms, industryFilms, artFilms, oscFilms, cannesFilms, veniceFilms, berlinFilms, getEraStyle, getPosterPlaceholder, POSTERS } from '@/data/films'
-import PlatformIcon from '@/components/PlatformIcon'
+import { ALL_FILMS, getEraStyle, getPosterPlaceholder, POSTERS } from '@/data/films'
+import { SITE_NAME, SITE_URL } from '@/data/site'
 
-const allFilms = [...techFilms, ...industryFilms, ...artFilms, ...oscFilms, ...cannesFilms, ...veniceFilms, ...berlinFilms]
+type FilmPageParams = Promise<{ id: string }>
 
 export function generateStaticParams() {
-  return allFilms.map(f => ({ id: f.id }))
+  return ALL_FILMS.map(f => ({ id: f.id }))
 }
 
-export default async function FilmPage({ params }: { params: Promise<{ id: string }> }) {
+export async function generateMetadata({ params }: { params: FilmPageParams }): Promise<Metadata> {
   const { id } = await params
-  const film = allFilms.find(f => f.id === id)
+  const film = ALL_FILMS.find(f => f.id === id)
+  if (!film) {
+    return {
+      title: '영화를 찾을 수 없음',
+    }
+  }
+
+  const title = `${film.title} (${film.year})`
+  const description = `${film.keyword}. ${film.description}`
+  const url = `/films/${film.id}`
+  const poster = POSTERS[film.id]
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: url,
+    },
+    openGraph: {
+      title: `${title} — ${SITE_NAME}`,
+      description,
+      url,
+      type: 'article',
+      images: poster ? [{ url: poster, alt: film.title }] : undefined,
+    },
+    twitter: {
+      card: poster ? 'summary_large_image' : 'summary',
+      title: `${title} — ${SITE_NAME}`,
+      description,
+      images: poster ? [poster] : undefined,
+    },
+  }
+}
+
+export default async function FilmPage({ params }: { params: FilmPageParams }) {
+  const { id } = await params
+  const film = ALL_FILMS.find(f => f.id === id)
   if (!film) notFound()
 
   const era = getEraStyle(film.year)
 
-  const related = allFilms.filter(f =>
+  const related = ALL_FILMS.filter(f =>
     f.id !== film.id &&
     Math.abs(f.year - film.year) <= 15 &&
     f.category === film.category
   ).slice(0, 6)
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Movie',
+    name: film.title,
+    datePublished: String(film.year),
+    description: film.description,
+    image: POSTERS[film.id],
+    url: `${SITE_URL}/films/${film.id}`,
+  }
+
   return (
     <div className="min-h-screen" style={{ background: '#0a0a0a' }}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
 
       {/* Header */}
       <header className="sticky top-0 z-50 flex items-center h-14"

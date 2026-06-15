@@ -1,9 +1,31 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import { SITE_DESCRIPTION, SITE_TITLE, SITE_URL } from '@/data/site'
 
 export const metadata: Metadata = {
-  title: '영화의 역사 — Fig.1',
-  description: '기술과 산업 관점에서 본 영화사의 결정적 순간들',
+  metadataBase: new URL(SITE_URL),
+  applicationName: 'Fig.1 Movie History',
+  title: {
+    default: SITE_TITLE,
+    template: `%s — ${SITE_TITLE}`,
+  },
+  description: SITE_DESCRIPTION,
+  alternates: {
+    canonical: '/',
+  },
+  openGraph: {
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    url: '/',
+    siteName: SITE_TITLE,
+    locale: 'ko_KR',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

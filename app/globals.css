@@ -60,6 +60,46 @@ html, body {
 .scroll-hide::-webkit-scrollbar { display: none; }
 .scroll-hide { -ms-overflow-style: none; scrollbar-width: none; }
 
+.film-card-link {
+  transition: transform 0.18s, border-color 0.18s, box-shadow 0.18s;
+}
+
+.film-card-link:hover,
+.film-card-link:focus-visible {
+  transform: scale(1.035);
+  border-color: #3a3a3a;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.55);
+}
+
+.film-card-overlay {
+  opacity: 0;
+}
+
+.film-card-link:hover .film-card-overlay,
+.film-card-link:focus-visible .film-card-overlay {
+  opacity: 1;
+}
+
+.field-tile:hover,
+.field-tile:focus-visible {
+  transform: scale(1.02);
+}
+
+.row-more-link:hover,
+.row-more-link:focus-visible {
+  color: #f0ede8 !important;
+}
+
+.timeline-card {
+  transition: transform 0.18s, border-color 0.18s;
+}
+
+.timeline-card:hover,
+a:focus-visible .timeline-card {
+  transform: scale(1.01);
+  border-color: #2a2a2a !important;
+}
+
 /* Fade mask on scroll rows */
 .row-fade {
   -webkit-mask-image: linear-gradient(to right, transparent 0px, black 20px, black calc(100% - 60px), transparent 100%);

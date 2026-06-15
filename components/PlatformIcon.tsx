@@ -1,6 +1,5 @@
 import React from 'react'
-
-export type Platform = 'netflix' | 'watcha' | 'disney' | 'appletv' | 'wavve' | 'tving' | 'youtube' | 'mubi'
+import type { Platform } from '@/data/films'
 
 const icons: Record<Platform, React.ReactElement> = {
   netflix: (

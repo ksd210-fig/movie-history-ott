@@ -1,15 +1,50 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { techFilms, industryFilms, artFilms, oscFilms, cannesFilms, veniceFilms, berlinFilms, FIELDS, FieldTag } from '@/data/films'
+import { ALL_FILMS, FIELDS, FieldTag } from '@/data/films'
 import FilmCard from '@/components/FilmCard'
+import { SITE_NAME } from '@/data/site'
 
-const ALL_FILMS = [...techFilms, ...industryFilms, ...artFilms, ...oscFilms, ...cannesFilms, ...veniceFilms, ...berlinFilms]
+type FieldPageParams = Promise<{ tag: string }>
 
 export function generateStaticParams() {
   return (Object.keys(FIELDS) as FieldTag[]).map(tag => ({ tag: encodeURIComponent(tag) }))
 }
 
-export default async function FieldPage({ params }: { params: Promise<{ tag: string }> }) {
+export async function generateMetadata({ params }: { params: FieldPageParams }): Promise<Metadata> {
+  const { tag: rawTag } = await params
+  const tag = decodeURIComponent(rawTag) as FieldTag
+  const meta = FIELDS[tag]
+  if (!meta) {
+    return {
+      title: '분야를 찾을 수 없음',
+    }
+  }
+
+  const url = `/fields/${encodeURIComponent(tag)}`
+  const description = meta.context ?? meta.desc
+
+  return {
+    title: meta.label,
+    description,
+    alternates: {
+      canonical: url,
+    },
+    openGraph: {
+      title: `${meta.label} — ${SITE_NAME}`,
+      description,
+      url,
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary',
+      title: `${meta.label} — ${SITE_NAME}`,
+      description,
+    },
+  }
+}
+
+export default async function FieldPage({ params }: { params: FieldPageParams }) {
   const { tag: rawTag } = await params
   const tag = decodeURIComponent(rawTag) as FieldTag
   const meta = FIELDS[tag]
@@ -23,7 +58,7 @@ export default async function FieldPage({ params }: { params: Promise<{ tag: str
       {/* Header */}
       <header className="sticky top-0 z-50 flex items-center h-14"
         style={{ paddingLeft: 'var(--page-px)', paddingRight: 'var(--page-px)', background: 'rgba(10,10,10,0.95)', borderBottom: '1px solid #1e1e1e', backdropFilter: 'blur(8px)' }}>
-        <Link href="/" className="flex items-center" style={{ gap: 12 }}>
+        <Link href="/" className="flex items-center" aria-label="영화의 역사 홈으로 돌아가기" style={{ gap: 12 }}>
           <span className="text-lg" style={{ color: '#8a8580' }}>←</span>
           <span className="text-sm font-medium tracking-widest" style={{ color: '#e8630a' }}>Fig.1</span>
           <span className="text-sm" style={{ color: '#3a3a3a' }}>/</span>
@@ -66,8 +101,8 @@ export default async function FieldPage({ params }: { params: Promise<{ tag: str
       {/* Film scroll */}
       <div style={{ marginTop: 40, paddingBottom: 80 }}>
         <div className="scroll-hide flex" style={{ overflowX: 'auto', gap: 12, paddingLeft: 'var(--page-px)', paddingRight: 'var(--page-px)' }}>
-          {films.map(film => (
-            <FilmCard key={film.id} film={film} large />
+          {films.map((film, index) => (
+            <FilmCard key={film.id} film={film} large priority={index < 4} />
           ))}
         </div>
       </div>

@@ -1,39 +1,24 @@
-'use client'
-
-import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Film, getEraStyle, getPosterPlaceholder, POSTERS } from '@/data/films'
 
-export default function FilmCard({ film, large = false, priority = false, onHoverChange, className }: {
+export default function FilmCard({ film, large = false, priority = false, className }: {
   film: Film
   large?: boolean
   priority?: boolean
-  onHoverChange?: (hovered: boolean, rect: DOMRect) => void
   className?: string
 }) {
-  const [hovered, setHovered] = useState(false)
   const era = getEraStyle(film.year)
   const w = large ? 'var(--film-card-w)' : 148
   const h = large ? 'var(--film-card-h)' : 222
   const poster = POSTERS[film.id]
 
-  const handleEnter = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    setHovered(true)
-    onHoverChange?.(true, e.currentTarget.getBoundingClientRect())
-  }
-  const handleLeave = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    setHovered(false)
-    onHoverChange?.(false, e.currentTarget.getBoundingClientRect())
-  }
-
   return (
-    <Link href={`/films/${film.id}`}
-      className={`flex-none rounded-lg overflow-hidden cursor-pointer block${className ? ` ${className}` : ''}`}
+    <Link
+      href={`/films/${film.id}`}
+      className={`film-card-link flex-none rounded-lg overflow-hidden cursor-pointer block${className ? ` ${className}` : ''}`}
       aria-label={`${film.title} (${film.year}) 상세 보기`}
       style={{ width: w, border: '1px solid #2a2a2a' }}
-      onMouseEnter={handleEnter}
-      onMouseLeave={handleLeave}
     >
       <div className="relative" style={{ height: h, background: era.bg }}>
         {poster ? (
@@ -65,14 +50,9 @@ export default function FilmCard({ film, large = false, priority = false, onHove
             </p>
           </div>
         )}
-        {/* hover overlay */}
-        <div className="absolute inset-0 flex flex-col justify-end"
-          style={{
-            background: 'rgba(0,0,0,0.88)',
-            padding: 12,
-            opacity: hovered ? 1 : 0,
-            transition: 'opacity 0.2s',
-          }}>
+
+        <div className="film-card-overlay absolute inset-0 flex flex-col justify-end"
+          style={{ background: 'rgba(0,0,0,0.88)', padding: 12, transition: 'opacity 0.2s' }}>
           <p className="text-[10px]" style={{ color: '#8a8580', marginBottom: 4 }}>{film.year}</p>
           <p className="text-[13px] font-medium leading-snug" style={{ color: '#f0ede8', marginBottom: 6 }}>{film.title}</p>
           <p className="text-[11px] leading-relaxed" style={{ color: '#8a8580' }}>{film.description}</p>
