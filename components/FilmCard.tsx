@@ -3,11 +3,12 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Film, getEraStyle, POSTERS } from '@/data/films'
+import { Film, getEraStyle, getPosterPlaceholder, POSTERS } from '@/data/films'
 
-export default function FilmCard({ film, large = false, onHoverChange, className }: {
+export default function FilmCard({ film, large = false, priority = false, onHoverChange, className }: {
   film: Film
   large?: boolean
+  priority?: boolean
   onHoverChange?: (hovered: boolean, rect: DOMRect) => void
   className?: string
 }) {
@@ -29,6 +30,7 @@ export default function FilmCard({ film, large = false, onHoverChange, className
   return (
     <Link href={`/films/${film.id}`}
       className={`flex-none rounded-lg overflow-hidden cursor-pointer block${className ? ` ${className}` : ''}`}
+      aria-label={`${film.title} (${film.year}) 상세 보기`}
       style={{ width: w, border: '1px solid #2a2a2a' }}
       onMouseEnter={handleEnter}
       onMouseLeave={handleLeave}
@@ -40,6 +42,11 @@ export default function FilmCard({ film, large = false, onHoverChange, className
             alt={film.title}
             fill
             sizes={large ? '(max-width: 768px) 33vw, 200px' : '148px'}
+            preload={priority}
+            loading={priority ? 'eager' : 'lazy'}
+            fetchPriority={priority ? 'high' : undefined}
+            placeholder="blur"
+            blurDataURL={getPosterPlaceholder(film.year)}
             style={{ objectFit: 'cover' }}
           />
         ) : (

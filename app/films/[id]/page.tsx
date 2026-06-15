@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
-import { techFilms, industryFilms, artFilms, oscFilms, cannesFilms, veniceFilms, berlinFilms, getEraStyle, POSTERS } from '@/data/films'
+import { techFilms, industryFilms, artFilms, oscFilms, cannesFilms, veniceFilms, berlinFilms, getEraStyle, getPosterPlaceholder, POSTERS } from '@/data/films'
 import PlatformIcon from '@/components/PlatformIcon'
 
 const allFilms = [...techFilms, ...industryFilms, ...artFilms, ...oscFilms, ...cannesFilms, ...veniceFilms, ...berlinFilms]
@@ -29,7 +29,7 @@ export default async function FilmPage({ params }: { params: Promise<{ id: strin
       {/* Header */}
       <header className="sticky top-0 z-50 flex items-center h-14"
         style={{ paddingLeft: 'var(--page-px)', paddingRight: 'var(--page-px)', background: 'rgba(10,10,10,0.95)', borderBottom: '1px solid #1e1e1e', backdropFilter: 'blur(8px)' }}>
-        <Link href="/" className="flex items-center" style={{ gap: 12 }}>
+        <Link href="/" className="flex items-center" aria-label="영화의 역사 홈으로 돌아가기" style={{ gap: 12 }}>
           <span className="text-lg" style={{ color: '#8a8580' }}>←</span>
           <span className="text-sm font-medium tracking-widest" style={{ color: '#e8630a' }}>Fig.1</span>
           <span className="text-sm" style={{ color: '#3a3a3a' }}>/</span>
@@ -59,7 +59,11 @@ export default async function FilmPage({ params }: { params: Promise<{ id: strin
                 fill
                 sizes="192px"
                 style={{ objectFit: 'cover' }}
-                priority
+                placeholder="blur"
+                blurDataURL={getPosterPlaceholder(film.year)}
+                preload
+                loading="eager"
+                fetchPriority="high"
               />
             ) : (
               <div className="absolute inset-0 flex flex-col items-center justify-center"
@@ -95,6 +99,7 @@ export default async function FilmPage({ params }: { params: Promise<{ id: strin
                 href={`https://www.justwatch.com/kr/search?q=${encodeURIComponent(film.title)}`}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label={`${film.title} JustWatch에서 찾기`}
                 className="inline-flex items-center text-sm font-medium justwatch-btn"
                 style={{
                   background: '#1a1a1a',
@@ -130,10 +135,19 @@ export default async function FilmPage({ params }: { params: Promise<{ id: strin
               const s = getEraStyle(f.year)
               return (
                 <Link key={f.id} href={`/films/${f.id}`} className="group block rounded-lg overflow-hidden"
+                  aria-label={`${f.title} (${f.year}) 상세 보기`}
                   style={{ width: 144, border: '1px solid #2a2a2a' }}>
                   <div className="relative" style={{ height: 208, background: s.bg }}>
                     {POSTERS[f.id] ? (
-                      <Image src={POSTERS[f.id]} alt={f.title} fill sizes="144px" style={{ objectFit: 'cover' }} />
+                      <Image
+                        src={POSTERS[f.id]}
+                        alt={f.title}
+                        fill
+                        sizes="144px"
+                        placeholder="blur"
+                        blurDataURL={getPosterPlaceholder(f.year)}
+                        style={{ objectFit: 'cover' }}
+                      />
                     ) : (
                       <div className="absolute inset-0 flex flex-col justify-between" style={{ padding: 12 }}>
                         <span className="text-[10px] rounded self-start"

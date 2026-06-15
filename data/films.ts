@@ -385,18 +385,18 @@ export const oscFilms: Film[] = [
   { id: 'osc-westside',    title: '웨스트 사이드 스토리',         year: 1961, keyword: '아카데미 작품상', category: 'industry', fields: ['아카데미'], description: '뮤지컬 영화 역사상 최다 수상 10관왕. 로미오와 줄리엣의 뉴욕 갱 버전.', streaming: [dp('West Side Story')] },
   { id: 'osc-lawrence',    title: '아라비아의 로렌스',            year: 1962, keyword: '아카데미 작품상', category: 'industry', fields: ['아카데미', '블록버스터', '촬영'], description: '데이비드 린. 70mm 사막 서사시. 피터 오툴. 역사상 가장 웅장한 스크린 스펙터클.', streaming: [nf('아라비아의 로렌스'), wa('아라비아의 로렌스')] },
   { id: 'osc-tomjones',    title: '톰 존스',                     year: 1963, keyword: '아카데미 작품상', category: 'industry', fields: ['아카데미', '인디필름'], description: '토니 리처드슨. 18세기 방탕한 청년의 모험. 영국 뉴 웨이브 유머. 아카데미의 유럽 포용.' },
-  { id: 'osc-myfairlady',  title: '마이 페어 레이디',            year: 1964, keyword: '아카데미 작품상', category: 'industry', fields: ['아카데미', '스튜디오시대'], description: '오드리 헵번, 렉스 해리슨. 조지 버나드 쇼 원작 뮤지컬. 계급과 언어와 변신.', streaming: [nf('마이 페어 레이디')] },
+  { id: 'osc-myfairlady',  title: '마이 페어 레이디',            year: 1964, keyword: '아카데미 작품상', category: 'industry', fields: ['아카데미'], description: '오드리 헵번, 렉스 해리슨. 조지 버나드 쇼 원작 뮤지컬. 계급과 언어와 변신.', streaming: [nf('마이 페어 레이디')] },
   { id: 'osc-soundmusic',  title: '사운드 오브 뮤직',            year: 1965, keyword: '아카데미 작품상', category: 'industry', fields: ['아카데미', '블록버스터'], description: '줄리 앤드류스. 나치 탈출 뮤지컬. 역대 최고 흥행 뮤지컬 영화 중 하나.', streaming: [dp('Sound of Music')] },
   { id: 'osc-manseasons',  title: '사계절의 사나이',             year: 1966, keyword: '아카데미 작품상', category: 'industry', fields: ['아카데미'], description: '폴 스코필드. 헨리 8세와 토마스 모어. 양심 대 권력.' },
   { id: 'osc-heatnight',   title: '밤의 열기 속으로',            year: 1967, keyword: '아카데미 작품상', category: 'industry', fields: ['아카데미', '뉴할리우드'], description: '시드니 포이티에. 흑인 형사 vs 남부 백인 경찰. 미국 인종 갈등의 정면 대결.', streaming: [wa('밤의 열기 속으로')] },
-  { id: 'osc-oliver',      title: '올리버!',                    year: 1968, keyword: '아카데미 작품상', category: 'industry', fields: ['아카데미', '스튜디오시대'], description: '캐럴 리드. 찰스 디킨스 뮤지컬. 5관왕. 헐리우드 뮤지컬 붐의 마지막 불꽃.' },
+  { id: 'osc-oliver',      title: '올리버!',                    year: 1968, keyword: '아카데미 작품상', category: 'industry', fields: ['아카데미'], description: '캐럴 리드. 찰스 디킨스 뮤지컬. 5관왕. 할리우드 뮤지컬 붐의 마지막 불꽃.' },
   { id: 'osc-midnight',    title: '미드나잇 카우보이',            year: 1969, keyword: '아카데미 작품상', category: 'industry', fields: ['아카데미', '뉴할리우드', '인디필름'], description: '존 슐레진저. X등급 최초 작품상. 뉴욕의 매춘 사기꾼. 뉴 할리우드 반도덕주의 선언.', streaming: [nf('미드나잇 카우보이'), wa('미드나잇 카우보이')] },
   { id: 'osc-patton',      title: '패튼 대전차 군단',            year: 1970, keyword: '아카데미 작품상', category: 'industry', fields: ['아카데미', '뉴할리우드'], description: '조지 C. 스콧. 수상 거부로도 유명. 반전 시대 속 영웅주의 전쟁 서사의 아카데미 선택.', streaming: [nf('패튼'), wa('패튼')] },
   { id: 'osc-french',      title: '프렌치 커넥션',              year: 1971, keyword: '아카데미 작품상', category: 'industry', fields: ['아카데미', '뉴할리우드'], description: '진 해크먼. 실화 마약 추적 스릴러. 카 체이스 명장면. 액션 영화 리얼리즘의 전환.', streaming: [wa('프렌치 커넥션')] },
   // 1972 already in ind-godfather
   { id: 'osc-sting',       title: '스팅',                        year: 1973, keyword: '아카데미 작품상', category: 'industry', fields: ['아카데미', '뉴할리우드'], description: '로버트 레드퍼드, 폴 뉴먼. 사기극의 교과서. 스콧 조플린 래그타임의 부활. 7관왕.', streaming: [nf('스팅'), wa('스팅')] },
-  { id: 'osc-godfather2',  title: '대부 2',                     year: 1974, keyword: '아카데미 작품상', category: 'industry', fields: ['아카데미', '인디필름'], description: '속편 최초 작품상. 비토·마이클 두 코를레오네의 교차 서사. 오리지널을 뛰어넘다.', streaming: [nf('대부 2'), wa('대부 2')] },
-  { id: 'osc-cuckoo',      title: '뻐꾸기 둥지 위로 날아간 새', year: 1975, keyword: '아카데미 작품상', category: 'industry', fields: ['아카데미', '뉴할리우드', '인디필름'], description: '잭 니콜슨. 제도와 개인의 충돌. 작품상 포함 5관왕. 이탈래이트 웬 더 네스트 날아간 새.', streaming: [nf('뻐꾸기 둥지 위로 날아간 새'), wa('뻐꾸기 둥지')] },
+  { id: 'osc-godfather2',  title: '대부 2',                     year: 1974, keyword: '아카데미 작품상', category: 'industry', fields: ['아카데미', '뉴할리우드'], description: '속편 최초 작품상. 비토·마이클 두 코를레오네의 교차 서사. 오리지널을 뛰어넘다.', streaming: [nf('대부 2'), wa('대부 2')] },
+  { id: 'osc-cuckoo',      title: '뻐꾸기 둥지 위로 날아간 새', year: 1975, keyword: '아카데미 작품상', category: 'industry', fields: ['아카데미', '뉴할리우드', '인디필름'], description: '잭 니콜슨. 제도와 개인의 충돌. 작품상 포함 5관왕. 뉴 할리우드 반권위 정서의 대표작.', streaming: [nf('뻐꾸기 둥지 위로 날아간 새'), wa('뻐꾸기 둥지')] },
   { id: 'osc-rocky',       title: '록키',                        year: 1976, keyword: '아카데미 작품상', category: 'industry', fields: ['아카데미', '인디필름'], description: '실베스터 스탤론 각본·주연. 무명 복서의 꿈. 저예산 영화가 잡아낸 아메리칸 드림.', streaming: [nf('록키'), wa('록키')] },
   { id: 'osc-anniehall',   title: '애니 홀',                    year: 1977, keyword: '아카데미 작품상', category: 'industry', fields: ['아카데미', '뉴할리우드', '인디필름'], description: '우디 앨런. 뉴욕 지식인 로맨스. 자기반영적 코미디. 스타워즈를 꺾은 아카데미의 선택.', streaming: [nf('애니 홀'), wa('애니 홀')] },
   { id: 'osc-deerhunter',  title: '디어 헌터',                  year: 1978, keyword: '아카데미 작품상', category: 'industry', fields: ['아카데미', '뉴할리우드', '인디필름'], description: '마이클 치미노. 베트남 전쟁 트라우마. 러시안 룰렛. 미국 노동자 계층의 비극.', streaming: [nf('디어 헌터'), wa('디어 헌터')] },
@@ -475,7 +475,7 @@ export const artFilms: Film[] = [
     streaming: [wa('이중 배상'), nf('이중 배상')],
   },
   {
-    id: 'art-sunset', title: '선셋 대로', year: 1950, keyword: '헐리우드 누아르', category: 'industry',
+    id: 'art-sunset', title: '선셋 대로', year: 1950, keyword: '할리우드 누아르', category: 'industry',
     fields: ['누아르'],
     description: '죽은 자의 시점으로 시작하는 서사. 할리우드 스튜디오 시스템의 어두운 자화상.',
     streaming: [wa('선셋 대로'), nf('선셋 대로')],
@@ -948,7 +948,7 @@ export const veniceFilms: Film[] = [
 
 export const berlinFilms: Film[] = [
   // 1950s
-  { id: 'ber-12angrymen',     title: '12인의 성난 사람들',     year: 1957, keyword: '황금곰상', category: 'industry', fields: ['베를린', '뉴할리우드'], description: '시드니 루멧. 헨리 폰다. 배심원실, 한 청년의 유죄를 둘러싼 12명의 논쟁. 민주주의와 편견을 밀실에서 해부한 영화.', streaming: [mb('12 Angry Men'), wa('12인의 성난 사람들')] },
+  { id: 'ber-12angrymen',     title: '12인의 성난 사람들',     year: 1957, keyword: '황금곰상', category: 'industry', fields: ['베를린'], description: '시드니 루멧. 헨리 폰다. 배심원실, 한 청년의 유죄를 둘러싼 12명의 논쟁. 민주주의와 편견을 밀실에서 해부한 영화.', streaming: [mb('12 Angry Men'), wa('12인의 성난 사람들')] },
   { id: 'ber-wildstrawberries', title: '산딸기',               year: 1957, keyword: '황금곰상', category: 'industry', fields: ['베를린', '세계영화'], description: '잉마르 베리만. 명예박사 학위를 받으러 가는 노교수가 꿈과 기억 속에서 자신의 삶을 돌아본다. 베리만 최대의 인간적 영화.', streaming: [mb('Wild Strawberries'), wa('산딸기')] },
   // 1960s
   { id: 'ber-lanotte',        title: '라 노테',                year: 1961, keyword: '황금곰상', category: 'industry', fields: ['베를린', '세계영화'], description: '미켈란젤로 안토니오니. 마르첼로 마스트로이안니, 잔느 모로. 밀라노 하루, 무너지는 결혼. 현대인의 소외를 다룬 3부작의 중심작.', streaming: [mb('La Notte')] },
@@ -979,7 +979,7 @@ export const berlinFilms: Film[] = [
   { id: 'ber-lakesouls',      title: '향혼녀',                 year: 1993, keyword: '황금곰상', category: 'industry', fields: ['베를린', '세계영화'], description: '셰 페이. 중국 향기로운 영혼의 호수 마을. 전통 문화와 근대화 사이에서 갈등하는 여성들의 이야기. 중국 5세대 감독.', streaming: [] },
   { id: 'ber-lappat',         title: '먹잇감',                 year: 1995, keyword: '황금곰상', category: 'industry', fields: ['베를린', '세계영화'], description: '베르트랑 타베르니에. 파리 외곽 청소년들이 여성을 노려 조직적으로 강도질을 한다. 프랑스 사회의 어두운 이면.', streaming: [] },
   { id: 'ber-sensibility',    title: '이성과 감성',            year: 1995, keyword: '황금곰상', category: 'industry', fields: ['베를린', '블록버스터'], description: '이안. 에마 톰슨, 케이트 윈슬렛. 제인 오스틴 원작. 이안의 첫 영어 장편, 베를린 황금곰상.', streaming: [nf('이성과 감성'), wa('이성과 감성')] },
-  { id: 'ber-peoplevsflynt',  title: '래리 플린트',            year: 1996, keyword: '황금곰상', category: 'industry', fields: ['베를린', '뉴할리우드'], description: '밀로스 포먼. 성인 잡지 허슬러 창업자의 법정 투쟁. 표현의 자유와 검열의 경계. 우디 해럴슨 주연.', streaming: [wa('래리 플린트')] },
+  { id: 'ber-peoplevsflynt',  title: '래리 플린트',            year: 1996, keyword: '황금곰상', category: 'industry', fields: ['베를린'], description: '밀로스 포먼. 성인 잡지 허슬러 창업자의 법정 투쟁. 표현의 자유와 검열의 경계. 우디 해럴슨 주연.', streaming: [wa('래리 플린트')] },
   { id: 'ber-centralstation', title: '중앙역',                 year: 1998, keyword: '황금곰상', category: 'industry', fields: ['베를린', '세계영화'], description: '월터 살레스. 전직 교사 도라와 고아 소년의 브라질 횡단 여정. 불평등 사회 속 인간적 연대.', streaming: [mb('Central Station'), wa('중앙역')] },
   { id: 'ber-thinredline',    title: '씬 레드 라인',           year: 1998, keyword: '황금곰상', category: 'industry', fields: ['베를린'], description: '테런스 맬릭. 2차 대전 과달카날 전투. 병사들의 철학적 독백. 전쟁 속 자연과 영혼을 탐구한 시적 전쟁영화.', streaming: [nf('씬 레드 라인'), wa('씬 레드 라인')] },
   { id: 'ber-magnolia',       title: '매그놀리아',             year: 1999, keyword: '황금곰상', category: 'industry', fields: ['베를린', '인디필름'], description: '폴 토머스 앤더슨. 로스앤젤레스 하루, 9명의 삶이 얽히다. 개구리 비와 용서. PTA의 3시간짜리 야심작.', streaming: [nf('매그놀리아'), wa('매그놀리아')] },
@@ -1403,4 +1403,10 @@ export function getEraStyle(year: number): { bg: string; text: string; tag: stri
   if (year < 1990) return { bg: '#200808', text: '#f5d0d0', tag: '#451010', tagText: '#f57878' }
   if (year < 2010) return { bg: '#081a10', text: '#d0f0e0', tag: '#103520', tagText: '#78f0b0' }
   return { bg: '#100820', text: '#e0d0f5', tag: '#201040', tagText: '#c078f5' }
+}
+
+export function getPosterPlaceholder(year: number): string {
+  const era = getEraStyle(year)
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="36" viewBox="0 0 24 36"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${era.bg}"/><stop offset="100%" stop-color="${era.tag}"/></linearGradient></defs><rect width="24" height="36" fill="url(#g)"/><circle cx="18" cy="9" r="7" fill="${era.tagText}" opacity="0.12"/><path d="M4 28H20" stroke="${era.tagText}" stroke-opacity="0.22" stroke-width="2" stroke-linecap="round"/></svg>`
+  return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`
 }

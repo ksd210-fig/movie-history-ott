@@ -4,122 +4,110 @@ import { useState, useRef, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import FilmCard from '@/components/FilmCard'
-import { techFilms, industryFilms, artFilms, oscFilms, cannesFilms, veniceFilms, berlinFilms, Film, getEraStyle, FIELDS, FieldTag, POSTERS } from '@/data/films'
+import { techFilms, industryFilms, artFilms, oscFilms, cannesFilms, veniceFilms, berlinFilms, Film, getEraStyle, getPosterPlaceholder, FIELDS, FieldTag, POSTERS } from '@/data/films'
 
 type Filter = 'all' | 'art'
 
 const ALL_FILMS = [...techFilms, ...industryFilms, ...artFilms, ...oscFilms, ...cannesFilms, ...veniceFilms, ...berlinFilms]
 
-const HERO_FILMS = [
-  techFilms.find(f => f.id === 'tech-2001'),
-  industryFilms.find(f => f.id === 'ind-godfather'),
-  artFilms.find(f => f.id === 'art-breathless'),
-].filter(Boolean) as typeof techFilms
+const HERO_SLIDES = [
+  {
+    id: 'intro',
+    title: '영화의 역사',
+    subtitle: 'Movie History',
+    description: '산업·기술·예술 세 관점으로 본 영화 100년. 스튜디오 시스템부터 스트리밍까지, 영화사의 결정적 순간들을 모았습니다.',
+    bg: 'linear-gradient(135deg, #0d0f1a 0%, #0a0a0a 65%)',
+    accent: '#4a6fa5',
+    cta: null as string | null,
+  },
+  {
+    id: 'fig1',
+    title: 'Fig.1',
+    subtitle: '역사로 읽는 미디어',
+    description: '역사 속 맥락으로 현재를 이해하는 1인 크리에이터 미디어. 유튜브·인스타그램·출판물로 이야기를 만듭니다.',
+    bg: 'linear-gradient(135deg, #140f0a 0%, #0a0a0a 65%)',
+    accent: '#e8630a',
+    cta: 'https://www.youtube.com/@fig1_history' as string | null,
+  },
+]
 
 function HeroCarousel() {
   const [idx, setIdx] = useState(0)
-  const [animDir, setAnimDir] = useState<'left'|'right'>('right')
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  const go = (next: number, dir: 'left'|'right') => {
-    setAnimDir(dir)
-    setIdx((next + HERO_FILMS.length) % HERO_FILMS.length)
+  const go = (next: number) => {
+    setIdx((next + HERO_SLIDES.length) % HERO_SLIDES.length)
   }
 
   useEffect(() => {
-    timerRef.current = setTimeout(() => go(idx + 1, 'right'), 5000)
+    timerRef.current = setTimeout(() => go(idx + 1), 6000)
     return () => { if (timerRef.current) clearTimeout(timerRef.current) }
   }, [idx])
 
-  const film = HERO_FILMS[idx]
-  const era = getEraStyle(film.year)
+  const slide = HERO_SLIDES[idx]
 
   return (
-    <div className="relative overflow-hidden hero-carousel" style={{ height: "520px" }}>
+    <div className="relative overflow-hidden hero-carousel" style={{ height: '520px' }}>
       {/* Background */}
-      <div key={film.id} className="absolute inset-0 transition-opacity duration-700"
-        style={{ background: `linear-gradient(135deg, ${era.bg} 0%, #0a0a0a 65%)` }} />
+      <div key={slide.id} className="absolute inset-0" style={{ background: slide.bg }} />
 
-      {/* Poster on the right */}
+      {/* Decorative accent shape */}
       <div className="absolute right-0 top-0 bottom-0 w-1/2 pointer-events-none overflow-hidden">
-        {POSTERS[film.id] ? (
-          <>
-            <Image
-              src={POSTERS[film.id]}
-              alt={film.title}
-              fill
-              sizes="50vw"
-              style={{ objectFit: 'cover', objectPosition: 'center top', opacity: 0.35 }}
-              priority
-            />
-            <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, #0a0a0a 0%, transparent 40%)' }} />
-          </>
-        ) : (
-          <svg viewBox="0 0 600 520" className="w-full h-full opacity-15" preserveAspectRatio="xMaxYMid slice">
-            <circle cx="500" cy="200" r="320" fill={era.tag} />
-            <circle cx="300" cy="400" r="180" fill={era.tag} opacity="0.5" />
-          </svg>
-        )}
+        <svg viewBox="0 0 600 520" className="w-full h-full" preserveAspectRatio="xMaxYMid slice" style={{ opacity: 0.06 }}>
+          <circle cx="480" cy="180" r="300" fill={slide.accent} />
+          <circle cx="280" cy="420" r="160" fill={slide.accent} />
+        </svg>
       </div>
-      <div className="absolute inset-0 pointer-events-none"
-        style={{ background: 'linear-gradient(to right, #0a0a0a 30%, transparent 70%)' }} />
       <div className="absolute bottom-0 left-0 right-0 h-28 pointer-events-none"
         style={{ background: 'linear-gradient(to bottom, transparent, #0a0a0a)' }} />
 
       {/* Content */}
-      <div className="relative z-10 flex flex-col justify-end h-full max-w-3xl" style={{ paddingLeft: 'var(--page-px)', paddingBottom: 64 }}>
-        <div className="flex items-center" style={{ gap: 8, marginBottom: 20 }}>
-          <span className="text-[11px] font-medium"
-            style={{ background: era.tag, color: era.tagText, paddingLeft: 10, paddingRight: 10, paddingTop: 4, paddingBottom: 4, borderRadius: 4 }}>
-            {film.keyword}
-          </span>
-          <span className="text-[11px]" style={{ color: '#5a5a5a' }}>
-            {film.category === 'tech' ? '기술 관점' : film.category === 'industry' ? '산업 관점' : '예술 운동'}
-          </span>
-          <span className="text-[11px]" style={{ color: '#3a3a3a' }}>·</span>
-          <span className="text-[11px]" style={{ color: '#5a5a5a' }}>{film.year}</span>
-        </div>
+      <div className="relative z-10 flex flex-col justify-end h-full" style={{ paddingLeft: 'var(--page-px)', paddingBottom: 64, maxWidth: 600 }}>
+        <span className="text-xs font-medium tracking-widest" style={{ color: slide.accent, marginBottom: 16 }}>
+          {slide.subtitle}
+        </span>
 
         <h2 className="text-3xl md:text-5xl font-semibold leading-tight" style={{ color: '#f0ede8', letterSpacing: '-0.02em', marginBottom: 20 }}>
-          {film.title}
+          {slide.title}
         </h2>
 
-        <p className="text-sm leading-relaxed" style={{ color: '#8a8580', marginBottom: 32, maxWidth: 512 }}>
-          {film.description}
+        <p className="text-sm leading-relaxed" style={{ color: '#8a8580', marginBottom: 32, maxWidth: 480 }}>
+          {slide.description}
         </p>
 
-        <Link href={`/films/${film.id}`}
-          className="inline-flex items-center self-start transition-opacity hover:opacity-80"
-          style={{ background: '#f0ede8', color: '#0a0a0a', gap: 8, paddingLeft: 24, paddingRight: 24, paddingTop: 12, paddingBottom: 12, borderRadius: 8, fontSize: 14, fontWeight: 500 }}>
-          ▶ 자세히 보기
-        </Link>
+        {slide.cta && (
+          <a href={slide.cta} target="_blank" rel="noopener noreferrer"
+            aria-label="Fig.1 유튜브 채널 새 탭에서 보기"
+            className="inline-flex items-center self-start transition-opacity hover:opacity-80"
+            style={{ background: '#f0ede8', color: '#0a0a0a', gap: 8, paddingLeft: 24, paddingRight: 24, paddingTop: 12, paddingBottom: 12, borderRadius: 8, fontSize: 14, fontWeight: 500, textDecoration: 'none' }}>
+            Fig.1 보러가기 →
+          </a>
+        )}
       </div>
 
       {/* Left arrow */}
-      <button onClick={() => go(idx - 1, 'left')}
+      <button type="button" onClick={() => go(idx - 1)} aria-label="이전 히어로 슬라이드 보기"
         className="absolute left-4 top-1/2 -translate-y-1/2 z-20 flex items-center justify-center transition-opacity hover:opacity-100 opacity-50"
         style={{ width: 44, height: 44, borderRadius: '50%', background: 'rgba(240,237,232,0.1)', border: '1px solid rgba(240,237,232,0.2)', color: '#f0ede8', fontSize: 22, cursor: 'pointer' }}>
         ‹
       </button>
 
       {/* Right arrow */}
-      <button onClick={() => go(idx + 1, 'right')}
+      <button type="button" onClick={() => go(idx + 1)} aria-label="다음 히어로 슬라이드 보기"
         className="absolute right-4 top-1/2 -translate-y-1/2 z-20 flex items-center justify-center transition-opacity hover:opacity-100 opacity-50"
         style={{ width: 44, height: 44, borderRadius: '50%', background: 'rgba(240,237,232,0.1)', border: '1px solid rgba(240,237,232,0.2)', color: '#f0ede8', fontSize: 22, cursor: 'pointer' }}>
         ›
       </button>
 
-      {/* Indicator */}
-      <div className="absolute z-20 flex items-center" style={{ bottom: 32, right: 32, gap: 12 }}>
-        <span className="text-sm font-medium tabular-nums" style={{ color: '#f0ede8' }}>{idx + 1}</span>
-        <span style={{ color: '#3a3a3a' }}>|</span>
-        <span className="text-sm tabular-nums" style={{ color: '#5a5a5a' }}>{HERO_FILMS.length}</span>
-      </div>
-
       {/* Dot indicators */}
       <div className="absolute z-20 flex items-center" style={{ bottom: 32, left: '50%', transform: 'translateX(-50%)', gap: 6 }}>
-        {HERO_FILMS.map((_, i) => (
-          <button key={i} onClick={() => go(i, i > idx ? 'right' : 'left')}
+        {HERO_SLIDES.map((_, i) => (
+          <button
+            key={i}
+            type="button"
+            onClick={() => go(i)}
+            aria-label={`${i + 1}번째 히어로 슬라이드 보기`}
+            aria-current={i === idx ? 'true' : undefined}
             style={{
               width: i === idx ? 20 : 6, height: 6,
               borderRadius: 3,
@@ -161,6 +149,7 @@ function FieldTile({ tag }: { tag: FieldTag }) {
   return (
     <Link href={`/fields/${encodeURIComponent(tag)}`}
       className="relative overflow-hidden rounded-xl block"
+      aria-label={`${meta.label} 분야 보기`}
       style={{ height: 130, background: meta.bg, border: `1px solid ${meta.accent}22`, transition: 'transform 0.18s, box-shadow 0.18s' }}
       onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.02)'; e.currentTarget.style.boxShadow = `0 8px 28px ${meta.accent}30` }}
       onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.boxShadow = 'none' }}
@@ -257,7 +246,7 @@ function FieldTiles() {
               <h2 className="text-2xl font-bold" style={{ color: '#f0ede8', letterSpacing: '-0.01em', marginBottom: 20 }}>
                 {group.label}
               </h2>
-              <div className="grid" style={{ gap: 12, gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))' }}>
+              <div className="grid" style={{ gap: 12, gridTemplateColumns: 'var(--field-grid-cols)' }}>
                 {group.tags.map(tag => <FieldTile key={tag} tag={tag} />)}
               </div>
             </div>
@@ -298,6 +287,7 @@ function ExpandedCard({ film, cardRect, sectionEl, onMouseEnter, onMouseLeave }:
   return (
     <Link href={`/films/${film.id}`}
       className="block rounded-xl overflow-hidden"
+      aria-label={`${film.title} (${film.year}) 상세 보기`}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       style={{
@@ -327,6 +317,8 @@ function ExpandedCard({ film, cardRect, sectionEl, onMouseEnter, onMouseLeave }:
             alt={film.title}
             fill
             sizes={`${EXPANDED_W}px`}
+            placeholder="blur"
+            blurDataURL={getPosterPlaceholder(film.year)}
             style={{ objectFit: 'cover' }}
           />
         ) : (
@@ -414,7 +406,7 @@ function TimelineView({ films }: { films: Film[] }) {
 
                   {/* Card */}
                   <div style={{ flex: 1, paddingBottom: isLast ? 0 : 16, paddingTop: 4, paddingLeft: 16 }}>
-                    <Link href={`/films/${film.id}`}>
+                    <Link href={`/films/${film.id}`} aria-label={`${film.title} (${film.year}) 상세 보기`}>
                       <div className="flex rounded-xl overflow-hidden transition-all hover:scale-[1.01]"
                         style={{ background: '#111', border: '1px solid #1e1e1e', height: 96 }}
                         onMouseEnter={e => (e.currentTarget.style.borderColor = '#2a2a2a')}
@@ -423,7 +415,18 @@ function TimelineView({ films }: { films: Film[] }) {
                         {/* Poster thumbnail */}
                         <div className="flex-none relative" style={{ width: 64, height: 96 }}>
                           {poster ? (
-                            <Image src={poster} alt={film.title} fill sizes="64px" style={{ objectFit: 'cover' }} />
+                            <Image
+                              src={poster}
+                              alt={film.title}
+                              fill
+                              sizes="64px"
+                              preload={di === 0 && fi < 4}
+                              loading={di === 0 && fi < 4 ? 'eager' : 'lazy'}
+                              fetchPriority={di === 0 && fi < 4 ? 'high' : undefined}
+                              placeholder="blur"
+                              blurDataURL={getPosterPlaceholder(film.year)}
+                              style={{ objectFit: 'cover' }}
+                            />
                           ) : (
                             <div className="absolute inset-0" style={{ background: '#1e1e1e' }} />
                           )}
@@ -469,7 +472,9 @@ function ArrowBtn({ dir, onClick, visible }: { dir: 'left' | 'right'; onClick: (
       }}
     >
       <button
+        type="button"
         onClick={onClick}
+        aria-label={dir === 'left' ? '왼쪽으로 스크롤' : '오른쪽으로 스크롤'}
         style={{
           width: '36px', height: '36px',
           borderRadius: '50%',
@@ -488,13 +493,14 @@ function ArrowBtn({ dir, onClick, visible }: { dir: 'left' | 'right'; onClick: (
   )
 }
 
-function FilmRow({ films, label, count, onMore, era, desc }: {
+function FilmRow({ films, label, count, onMore, era, desc, priorityCount = 0 }: {
   films: Film[]
   label: string
   count: number
   onMore: () => void
   era?: string
   desc?: string
+  priorityCount?: number
 }) {
   const scrollRef = useRef<HTMLDivElement>(null)
   const sectionRef = useRef<HTMLElement>(null)
@@ -541,7 +547,9 @@ function FilmRow({ films, label, count, onMore, era, desc }: {
             <h2 className="text-2xl font-bold" style={{ color: '#f0ede8', letterSpacing: '-0.01em' }}>{label}</h2>
           </div>
           <button
+            type="button"
             onClick={onMore}
+            aria-label={`${label} 전체 보기`}
             className="text-xs transition-colors"
             style={{ color: '#8a8580', background: 'none', border: 'none', cursor: 'pointer' }}
             onMouseEnter={e => (e.currentTarget.style.color = '#f0ede8')}
@@ -568,11 +576,12 @@ function FilmRow({ films, label, count, onMore, era, desc }: {
           className="flex overflow-x-auto scroll-hide"
           style={{ paddingLeft: 'var(--page-px)', paddingRight: 'var(--page-px)', gap: 12, paddingBottom: 8 }}
         >
-          {films.map(film => (
+          {films.map((film, index) => (
             <div key={film.id} style={{ scrollSnapAlign: 'start', flexShrink: 0 }}>
               <FilmCard
                 film={film}
                 large
+                priority={index < priorityCount}
                 className="film-card"
                 onHoverChange={(isHovered, rect) => handleCardHover(film, isHovered, rect)}
               />
@@ -621,7 +630,11 @@ function EraDropdown({ era, setEra }: { era: string | null; setEra: (v: string |
   return (
     <div ref={ref} className="relative">
       <button
+        type="button"
         onClick={() => setOpen(o => !o)}
+        aria-label="연도 필터 선택"
+        aria-haspopup="menu"
+        aria-expanded={open}
         className="flex items-center text-sm"
         style={{
           background: era ? '#2a1a00' : '#181818',
@@ -643,14 +656,14 @@ function EraDropdown({ era, setEra }: { era: string | null; setEra: (v: string |
         <div className="absolute right-0 top-full overflow-hidden"
           style={{ background: '#181818', border: '1px solid #2a2a2a', minWidth: '120px', boxShadow: '0 8px 24px rgba(0,0,0,0.6)', borderRadius: 8, marginTop: 6, zIndex: 50 }}>
           {era && (
-            <button onClick={() => { setEra(null); setOpen(false) }}
+            <button type="button" onClick={() => { setEra(null); setOpen(false) }}
               className="w-full text-left text-sm"
               style={{ color: '#8a8580', borderBottom: '1px solid #2a2a2a', cursor: 'pointer', background: 'none', paddingLeft: 16, paddingRight: 16, paddingTop: 10, paddingBottom: 10 }}>
               전체 기간
             </button>
           )}
           {ERA_LABELS.map(e => (
-            <button key={e.label} onClick={() => { setEra(e.label); setOpen(false) }}
+            <button key={e.label} type="button" onClick={() => { setEra(e.label); setOpen(false) }}
               className="w-full text-left text-sm"
               style={{ color: era === e.label ? '#e8630a' : '#c0bdb8', background: era === e.label ? '#1a0f00' : 'none', cursor: 'pointer', paddingLeft: 16, paddingRight: 16, paddingTop: 10, paddingBottom: 10 }}>
               {e.label}
@@ -681,7 +694,10 @@ export default function Page() {
           {/* View toggle */}
           <div className="flex items-center" style={{ background: '#181818', border: '1px solid #2a2a2a', borderRadius: 6, padding: 3, gap: 2 }}>
             <button
+              type="button"
               onClick={() => setView('home')}
+              aria-label="홈 보기"
+              aria-pressed={view === 'home'}
               title="홈"
               style={{
                 width: 30, height: 26, borderRadius: 4, border: 'none', cursor: 'pointer',
@@ -699,7 +715,10 @@ export default function Page() {
               </svg>
             </button>
             <button
+              type="button"
               onClick={() => setView('timeline')}
+              aria-label="타임라인 보기"
+              aria-pressed={view === 'timeline'}
               title="타임라인"
               style={{
                 width: 30, height: 26, borderRadius: 4, border: 'none', cursor: 'pointer',
@@ -730,7 +749,7 @@ export default function Page() {
         <TimelineView films={ALL_FILMS.filter((f, i, arr) => arr.findIndex(x => x.title === f.title && x.year === f.year) === i)} />
       ) : filter === 'all' ? (
         <>
-          {INDUSTRY_TAGS.map(tag => {
+          {INDUSTRY_TAGS.map((tag, index) => {
             const films = filteredByTag(tag)
             return films.length > 0 ? (
               <FilmRow
@@ -740,14 +759,19 @@ export default function Page() {
                 count={films.length}
                 era={FIELDS[tag].era}
                 desc={FIELDS[tag].desc}
+                priorityCount={index === 0 ? 4 : 0}
                 onMore={() => { location.href = `/fields/${encodeURIComponent(tag)}` }}
               />
             ) : null
           })}
-          <div style={{ paddingLeft: 'var(--page-px)', paddingRight: 'var(--page-px)', marginBottom: 20 }}>
-            <p className="text-2xl font-bold" style={{ color: '#f0ede8', marginBottom: 20, letterSpacing: '-0.01em' }}>역대 영화제 수상작</p>
-            <div className="grid" style={{ gap: 12, gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))' }}>
-              {AWARD_TAGS.map(tag => <FieldTile key={tag} tag={tag} />)}
+          <div style={{ marginBottom: 20 }}>
+            <p className="text-2xl font-bold" style={{ color: '#f0ede8', marginBottom: 20, letterSpacing: '-0.01em', paddingLeft: 'var(--page-px)' }}>역대 영화제 수상작</p>
+            <div className="flex scroll-hide" style={{ overflowX: 'auto', gap: 12, paddingLeft: 'var(--page-px)', paddingRight: 'var(--page-px)' }}>
+              {AWARD_TAGS.map(tag => (
+                <div key={tag} style={{ flexShrink: 0, width: 'var(--award-tile-w)' }}>
+                  <FieldTile tag={tag} />
+                </div>
+              ))}
             </div>
           </div>
           <div style={{ height: 64 }} />
