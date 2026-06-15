@@ -1,7 +1,7 @@
 import Link from 'next/link'
-import Image from 'next/image'
 import { notFound } from 'next/navigation'
-import { techFilms, industryFilms, artFilms, oscFilms, cannesFilms, veniceFilms, berlinFilms, FIELDS, FieldTag, getEraStyle, POSTERS } from '@/data/films'
+import { techFilms, industryFilms, artFilms, oscFilms, cannesFilms, veniceFilms, berlinFilms, FIELDS, FieldTag } from '@/data/films'
+import FilmCard from '@/components/FilmCard'
 
 const ALL_FILMS = [...techFilms, ...industryFilms, ...artFilms, ...oscFilms, ...cannesFilms, ...veniceFilms, ...berlinFilms]
 
@@ -22,7 +22,7 @@ export default async function FieldPage({ params }: { params: Promise<{ tag: str
 
       {/* Header */}
       <header className="sticky top-0 z-50 flex items-center h-14"
-        style={{ paddingLeft: 56, paddingRight: 56, background: 'rgba(10,10,10,0.95)', borderBottom: '1px solid #1e1e1e', backdropFilter: 'blur(8px)' }}>
+        style={{ paddingLeft: 'var(--page-px)', paddingRight: 'var(--page-px)', background: 'rgba(10,10,10,0.95)', borderBottom: '1px solid #1e1e1e', backdropFilter: 'blur(8px)' }}>
         <Link href="/" className="flex items-center" style={{ gap: 12 }}>
           <span className="text-lg" style={{ color: '#8a8580' }}>←</span>
           <span className="text-sm font-medium tracking-widest" style={{ color: '#e8630a' }}>Fig.1</span>
@@ -44,14 +44,14 @@ export default async function FieldPage({ params }: { params: Promise<{ tag: str
         <div className="absolute bottom-0 left-0 right-0 h-32"
           style={{ background: `linear-gradient(to bottom, transparent, #0a0a0a)` }} />
 
-        <div className="relative z-10" style={{ paddingLeft: 56, paddingRight: 56, paddingTop: 64, paddingBottom: 64 }}>
+        <div className="relative z-10" style={{ paddingLeft: 'var(--page-px)', paddingRight: 'var(--page-px)', paddingTop: 64, paddingBottom: 64 }}>
           <div style={{ marginBottom: 16 }}>
             <span className="text-xs font-medium rounded-full inline-block"
               style={{ background: `${meta.accent}22`, color: meta.accent, border: `1px solid ${meta.accent}44`, paddingLeft: 10, paddingRight: 10, paddingTop: 4, paddingBottom: 4 }}>
               {meta.era ?? tag}
             </span>
           </div>
-          <h1 className="text-4xl font-bold" style={{ color: '#f0ede8', marginBottom: 8, letterSpacing: '-0.02em' }}>
+          <h1 className="text-2xl md:text-4xl font-bold" style={{ color: '#f0ede8', marginBottom: 8, letterSpacing: '-0.02em' }}>
             {meta.label}
           </h1>
           <p className="text-base" style={{ color: '#6a6560', marginBottom: meta.context ? 32 : 0 }}>{meta.desc}</p>
@@ -63,51 +63,12 @@ export default async function FieldPage({ params }: { params: Promise<{ tag: str
         </div>
       </div>
 
-      {/* Film grid */}
-      <div style={{ marginTop: 40, paddingBottom: 80, paddingLeft: 56, paddingRight: 56 }}>
-        <div className="grid" style={{ gap: 16, gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))' }}>
-          {films.map(film => {
-            const era = getEraStyle(film.year)
-            const poster = POSTERS[film.id]
-            return (
-              <Link key={film.id} href={`/films/${film.id}`} className="group block rounded-xl overflow-hidden"
-                style={{ border: '1px solid #2a2a2a' }}>
-                <div className="relative" style={{ aspectRatio: '2/3', background: era.bg }}>
-                  {poster ? (
-                    <Image
-                      src={poster}
-                      alt={film.title}
-                      fill
-                      sizes="160px"
-                      style={{ objectFit: 'cover' }}
-                    />
-                  ) : (
-                    <div className="absolute inset-0 flex flex-col justify-between" style={{ padding: 12 }}>
-                      <div className="flex items-start justify-between">
-                        <span className="text-[10px] font-medium rounded"
-                          style={{ background: era.tag, color: era.tagText, paddingLeft: 8, paddingRight: 8, paddingTop: 2, paddingBottom: 2 }}>
-                          {film.keyword}
-                        </span>
-                        <span className="text-[11px] font-medium" style={{ color: era.tagText }}>
-                          {film.year}
-                        </span>
-                      </div>
-                      <p className="text-[14px] font-medium leading-snug" style={{ color: era.text }}>
-                        {film.title}
-                      </p>
-                    </div>
-                  )}
-                  {/* hover overlay */}
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 flex flex-col justify-end"
-                    style={{ background: 'rgba(0,0,0,0.88)', transition: 'opacity 0.2s', padding: 12 }}>
-                    <p className="text-[10px]" style={{ color: '#8a8580', marginBottom: 4 }}>{film.year}</p>
-                    <p className="text-[13px] font-medium leading-snug" style={{ color: '#f0ede8', marginBottom: 6 }}>{film.title}</p>
-                    <p className="text-[11px] leading-relaxed" style={{ color: '#8a8580' }}>{film.description}</p>
-                  </div>
-                </div>
-              </Link>
-            )
-          })}
+      {/* Film scroll */}
+      <div style={{ marginTop: 40, paddingBottom: 80 }}>
+        <div className="scroll-hide flex" style={{ overflowX: 'auto', gap: 12, paddingLeft: 'var(--page-px)', paddingRight: 'var(--page-px)' }}>
+          {films.map(film => (
+            <FilmCard key={film.id} film={film} large />
+          ))}
         </div>
       </div>
     </div>

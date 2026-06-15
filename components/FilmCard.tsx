@@ -5,15 +5,16 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { Film, getEraStyle, POSTERS } from '@/data/films'
 
-export default function FilmCard({ film, large = false, onHoverChange }: {
+export default function FilmCard({ film, large = false, onHoverChange, className }: {
   film: Film
   large?: boolean
   onHoverChange?: (hovered: boolean, rect: DOMRect) => void
+  className?: string
 }) {
   const [hovered, setHovered] = useState(false)
   const era = getEraStyle(film.year)
-  const w = large ? 200 : 148
-  const h = large ? 300 : 222
+  const w = large ? 'var(--film-card-w)' : 148
+  const h = large ? 'var(--film-card-h)' : 222
   const poster = POSTERS[film.id]
 
   const handleEnter = (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -27,7 +28,7 @@ export default function FilmCard({ film, large = false, onHoverChange }: {
 
   return (
     <Link href={`/films/${film.id}`}
-      className="flex-none rounded-lg overflow-hidden cursor-pointer block"
+      className={`flex-none rounded-lg overflow-hidden cursor-pointer block${className ? ` ${className}` : ''}`}
       style={{ width: w, border: '1px solid #2a2a2a' }}
       onMouseEnter={handleEnter}
       onMouseLeave={handleLeave}
@@ -38,7 +39,7 @@ export default function FilmCard({ film, large = false, onHoverChange }: {
             src={poster}
             alt={film.title}
             fill
-            sizes={`${w}px`}
+            sizes={large ? '(max-width: 768px) 33vw, 200px' : '148px'}
             style={{ objectFit: 'cover' }}
           />
         ) : (

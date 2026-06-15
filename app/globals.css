@@ -14,6 +14,35 @@
   --text: #f0ede8;
   --muted: #8a8580;
   --accent: #e8630a;
+  --page-px: 56px;
+  --film-card-w: 200px;
+  --film-card-h: 300px;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --page-px: 20px;
+    --film-card-w: calc((100vw - 64px) / 3);
+    --film-card-h: calc((100vw - 64px) / 2);
+  }
+
+  /* 히어로 */
+  .hero-carousel { height: 340px !important; }
+
+  /* 헤더 */
+  .header-subtitle { display: none; }
+
+  /* 화살표 버튼 숨김 */
+  .arrow-btn { display: none !important; }
+
+  /* 연표 카드 info 패널 숨김 */
+  .timeline-card-info { display: none; }
+
+  /* 스크롤 페이드 마스크 제거 */
+  .row-fade {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
 }
 
 html, body {

@@ -28,7 +28,7 @@ export default async function FilmPage({ params }: { params: Promise<{ id: strin
 
       {/* Header */}
       <header className="sticky top-0 z-50 flex items-center h-14"
-        style={{ paddingLeft: 56, paddingRight: 56, background: 'rgba(10,10,10,0.95)', borderBottom: '1px solid #1e1e1e', backdropFilter: 'blur(8px)' }}>
+        style={{ paddingLeft: 'var(--page-px)', paddingRight: 'var(--page-px)', background: 'rgba(10,10,10,0.95)', borderBottom: '1px solid #1e1e1e', backdropFilter: 'blur(8px)' }}>
         <Link href="/" className="flex items-center" style={{ gap: 12 }}>
           <span className="text-lg" style={{ color: '#8a8580' }}>←</span>
           <span className="text-sm font-medium tracking-widest" style={{ color: '#e8630a' }}>Fig.1</span>
@@ -47,11 +47,11 @@ export default async function FilmPage({ params }: { params: Promise<{ id: strin
         }} />
 
         <div className="relative z-10 flex flex-col md:flex-row max-w-5xl"
-          style={{ paddingLeft: 56, paddingRight: 56, paddingTop: 64, paddingBottom: 64, gap: 40 }}>
+          style={{ paddingLeft: 'var(--page-px)', paddingRight: 'var(--page-px)', paddingTop: 64, paddingBottom: 64, gap: 40 }}>
 
           {/* Poster */}
-          <div className="flex-none rounded-xl overflow-hidden"
-            style={{ width: 192, height: 288, position: 'relative', border: '1px solid rgba(255,255,255,0.1)' }}>
+          <div className="flex-none rounded-xl overflow-hidden self-start"
+            style={{ width: 160, height: 240, position: 'relative', border: '1px solid rgba(255,255,255,0.1)' }}>
             {POSTERS[film.id] ? (
               <Image
                 src={POSTERS[film.id]}
@@ -77,14 +77,11 @@ export default async function FilmPage({ params }: { params: Promise<{ id: strin
                 style={{ background: era.tag, color: era.tagText, paddingLeft: 10, paddingRight: 10, paddingTop: 4, paddingBottom: 4 }}>
                 {film.keyword}
               </span>
-              <span className="text-xs rounded-full"
-                style={{ background: '#1e1e1e', color: '#8a8580', paddingLeft: 10, paddingRight: 10, paddingTop: 4, paddingBottom: 4 }}>
-                {film.category === 'tech' ? '기술 관점' : '산업 관점'}
-              </span>
+
               <span className="text-xs" style={{ color: '#4a4a4a' }}>{film.year}</span>
             </div>
 
-            <h1 className="text-4xl font-medium leading-tight" style={{ color: '#f0ede8' }}>
+            <h1 className="text-2xl md:text-4xl font-medium leading-tight" style={{ color: '#f0ede8' }}>
               {film.title}
             </h1>
 
@@ -114,9 +111,6 @@ export default async function FilmPage({ params }: { params: Promise<{ id: strin
               </a>
             </div>
 
-            <div className="flex items-center" style={{ gap: 16, marginTop: 16 }}>
-              <span className="text-xs" style={{ color: '#4a4a4a' }}>Fig.1 · Movie History</span>
-            </div>
           </div>
         </div>
 
@@ -127,9 +121,9 @@ export default async function FilmPage({ params }: { params: Promise<{ id: strin
 
       {/* Related */}
       {related.length > 0 && (
-        <div style={{ marginTop: 40, paddingBottom: 80, paddingLeft: 56, paddingRight: 56 }}>
+        <div style={{ marginTop: 40, paddingBottom: 80, paddingLeft: 'var(--page-px)', paddingRight: 'var(--page-px)' }}>
           <h2 className="text-sm font-medium" style={{ color: '#8a8580', marginBottom: 20 }}>
-            같은 시대 · 같은 관점
+            비슷한 시대 · 비슷한 관점
           </h2>
           <div className="flex flex-wrap" style={{ gap: 12 }}>
             {related.map(f => {

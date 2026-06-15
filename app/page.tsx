@@ -35,7 +35,7 @@ function HeroCarousel() {
   const era = getEraStyle(film.year)
 
   return (
-    <div className="relative overflow-hidden" style={{ height: '520px' }}>
+    <div className="relative overflow-hidden hero-carousel" style={{ height: "520px" }}>
       {/* Background */}
       <div key={film.id} className="absolute inset-0 transition-opacity duration-700"
         style={{ background: `linear-gradient(135deg, ${era.bg} 0%, #0a0a0a 65%)` }} />
@@ -67,7 +67,7 @@ function HeroCarousel() {
         style={{ background: 'linear-gradient(to bottom, transparent, #0a0a0a)' }} />
 
       {/* Content */}
-      <div className="relative z-10 flex flex-col justify-end h-full max-w-3xl" style={{ paddingLeft: 80, paddingBottom: 96 }}>
+      <div className="relative z-10 flex flex-col justify-end h-full max-w-3xl" style={{ paddingLeft: 'var(--page-px)', paddingBottom: 64 }}>
         <div className="flex items-center" style={{ gap: 8, marginBottom: 20 }}>
           <span className="text-[11px] font-medium"
             style={{ background: era.tag, color: era.tagText, paddingLeft: 10, paddingRight: 10, paddingTop: 4, paddingBottom: 4, borderRadius: 4 }}>
@@ -80,7 +80,7 @@ function HeroCarousel() {
           <span className="text-[11px]" style={{ color: '#5a5a5a' }}>{film.year}</span>
         </div>
 
-        <h2 className="text-5xl font-semibold leading-tight" style={{ color: '#f0ede8', letterSpacing: '-0.02em', marginBottom: 20 }}>
+        <h2 className="text-3xl md:text-5xl font-semibold leading-tight" style={{ color: '#f0ede8', letterSpacing: '-0.02em', marginBottom: 20 }}>
           {film.title}
         </h2>
 
@@ -231,7 +231,7 @@ function FieldTileScrollRow({ label, tags }: { label: string; tags: FieldTag[] }
           ref={scrollRef}
           onScroll={updateArrows}
           className="flex overflow-x-auto scroll-hide"
-          style={{ paddingLeft: 56, paddingRight: 56, gap: 12, paddingBottom: 8 }}
+          style={{ paddingLeft: 'var(--page-px)', paddingRight: 'var(--page-px)', gap: 12, paddingBottom: 8 }}
         >
           {tags.map(tag => (
             <div key={tag} style={{ flexShrink: 0, width: 'calc((100vw - 160px) / 5)' }}>
@@ -253,11 +253,11 @@ function FieldTiles() {
           group.tags.length > 5 ? (
             <FieldTileScrollRow key={group.label} label={group.label} tags={group.tags} />
           ) : (
-            <div key={group.label} style={{ paddingLeft: 56, paddingRight: 56 }}>
+            <div key={group.label} style={{ paddingLeft: 'var(--page-px)', paddingRight: 'var(--page-px)' }}>
               <h2 className="text-2xl font-bold" style={{ color: '#f0ede8', letterSpacing: '-0.01em', marginBottom: 20 }}>
                 {group.label}
               </h2>
-              <div className="grid" style={{ gap: 12, gridTemplateColumns: `repeat(${group.tags.length}, 1fr)` }}>
+              <div className="grid" style={{ gap: 12, gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))' }}>
                 {group.tags.map(tag => <FieldTile key={tag} tag={tag} />)}
               </div>
             </div>
@@ -380,7 +380,7 @@ function TimelineView({ films }: { films: Film[] }) {
   }
 
   return (
-    <div style={{ paddingLeft: 56, paddingRight: 56, paddingBottom: 80 }}>
+    <div style={{ paddingLeft: 'var(--page-px)', paddingRight: 'var(--page-px)', paddingBottom: 80 }}>
       {Array.from(decades.entries()).map(([decade, decadeFilms], di) => (
         <div key={decade} style={{ marginTop: di === 0 ? 0 : 56 }}>
           {/* Decade label */}
@@ -412,19 +412,11 @@ function TimelineView({ films }: { films: Film[] }) {
                     )}
                   </div>
 
-                  {/* Dot */}
-                  <div className="flex flex-col items-center" style={{ width: 24, flexShrink: 0 }}>
-                    <div style={{ width: 7, height: 7, borderRadius: '50%', background: catColor, marginTop: 17, flexShrink: 0 }} />
-                    {!isLast && (
-                      <div style={{ flex: 1, width: 1, background: '#1e1e1e', marginTop: 4 }} />
-                    )}
-                  </div>
-
                   {/* Card */}
                   <div style={{ flex: 1, paddingBottom: isLast ? 0 : 16, paddingTop: 4, paddingLeft: 16 }}>
                     <Link href={`/films/${film.id}`}>
                       <div className="flex rounded-xl overflow-hidden transition-all hover:scale-[1.01]"
-                        style={{ background: '#111', border: '1px solid #1e1e1e' }}
+                        style={{ background: '#111', border: '1px solid #1e1e1e', height: 96 }}
                         onMouseEnter={e => (e.currentTarget.style.borderColor = '#2a2a2a')}
                         onMouseLeave={e => (e.currentTarget.style.borderColor = '#1e1e1e')}
                       >
@@ -438,17 +430,10 @@ function TimelineView({ films }: { films: Film[] }) {
                         </div>
 
                         {/* Info */}
-                        <div className="flex flex-col justify-center" style={{ padding: 16, gap: 6 }}>
-                          <div className="flex items-center" style={{ gap: 8 }}>
-                            <span className="text-[10px] font-medium"
-                              style={{ color: catColor, background: `${catColor}18`, paddingLeft: 7, paddingRight: 7, paddingTop: 2, paddingBottom: 2, borderRadius: 4 }}>
-                              {catLabel}
-                            </span>
-                            <span className="text-[11px]" style={{ color: '#4a4a4a' }}>{film.keyword}</span>
-                          </div>
-                          <p className="text-sm font-medium" style={{ color: '#f0ede8' }}>{film.title}</p>
-                          <p className="text-[11px] leading-relaxed" style={{ color: '#5a5a5a' }}>
-                            {film.description.slice(0, 60)}…
+                        <div style={{ padding: 12, paddingTop: 10, display: 'flex', flexDirection: 'column', gap: 4, justifyContent: 'center' }}>
+                          <p style={{ fontSize: 13, fontWeight: 500, color: '#f0ede8', lineHeight: 1.3 }}>{film.title}</p>
+                          <p style={{ fontSize: 11, color: '#5a5a5a', lineHeight: 1.5 }}>
+                            {film.description.slice(0, 55)}…
                           </p>
                         </div>
                       </div>
@@ -467,7 +452,7 @@ function TimelineView({ films }: { films: Film[] }) {
 function ArrowBtn({ dir, onClick, visible }: { dir: 'left' | 'right'; onClick: () => void; visible: boolean }) {
   return (
     <div
-      className="absolute top-0 z-10 flex items-center"
+      className="arrow-btn absolute top-0 z-10 flex items-center"
       style={{
         [dir]: 0,
         bottom: 32,
@@ -550,7 +535,7 @@ function FilmRow({ films, label, count, onMore, era, desc }: {
       onMouseLeave={() => setHovered(null)}
     >
       {/* Row header */}
-      <div style={{ paddingLeft: 56, paddingRight: 56, marginBottom: 20 }}>
+      <div style={{ paddingLeft: 'var(--page-px)', paddingRight: 'var(--page-px)', marginBottom: 20 }}>
         <div className="flex items-baseline justify-between">
           <div className="flex items-baseline" style={{ gap: 12 }}>
             <h2 className="text-2xl font-bold" style={{ color: '#f0ede8', letterSpacing: '-0.01em' }}>{label}</h2>
@@ -567,7 +552,7 @@ function FilmRow({ films, label, count, onMore, era, desc }: {
         </div>
         {(era || desc) && (
           <p className="text-sm" style={{ color: '#8a8580', marginTop: 6, display: 'flex', gap: 10, alignItems: 'center' }}>
-            {era && <span style={{ color: '#8a8580', fontVariantNumeric: 'tabular-nums' }}>{era}</span>}
+            {era && <span style={{ color: '#8a8580', fontVariantNumeric: 'tabular-nums', whiteSpace: 'nowrap', flexShrink: 0 }}>{era}</span>}
             {era && desc && <span style={{ color: '#4a4a4a' }}>·</span>}
             {desc && <span>{desc}</span>}
           </p>
@@ -581,13 +566,14 @@ function FilmRow({ films, label, count, onMore, era, desc }: {
           ref={scrollRef}
           onScroll={updateArrows}
           className="flex overflow-x-auto scroll-hide"
-          style={{ paddingLeft: 56, paddingRight: 56, gap: 12, paddingBottom: 8 }}
+          style={{ paddingLeft: 'var(--page-px)', paddingRight: 'var(--page-px)', gap: 12, paddingBottom: 8 }}
         >
           {films.map(film => (
             <div key={film.id} style={{ scrollSnapAlign: 'start', flexShrink: 0 }}>
               <FilmCard
                 film={film}
                 large
+                className="film-card"
                 onHoverChange={(isHovered, rect) => handleCardHover(film, isHovered, rect)}
               />
             </div>
@@ -686,10 +672,10 @@ export default function Page() {
   return (
     <div className="min-h-screen" style={{ background: '#0a0a0a' }}>
       <header className="sticky top-0 z-50 flex items-center justify-between h-14"
-        style={{ paddingLeft: 56, paddingRight: 56, background: 'rgba(10,10,10,0.95)', borderBottom: '1px solid #1e1e1e', backdropFilter: 'blur(8px)' }}>
+        style={{ paddingLeft: 'var(--page-px)', paddingRight: 'var(--page-px)', background: 'rgba(10,10,10,0.95)', borderBottom: '1px solid #1e1e1e', backdropFilter: 'blur(8px)' }}>
         <div className="flex items-center flex-none" style={{ gap: 20 }}>
           <span className="text-sm font-medium tracking-widest" style={{ color: '#e8630a' }}>Fig.1</span>
-          <span className="text-sm font-medium" style={{ color: '#f0ede8' }}>Movie History</span>
+          <span className="text-sm font-medium header-subtitle" style={{ color: "#f0ede8" }}>Movie History</span>
         </div>
         <div className="flex items-center flex-none" style={{ gap: 12 }}>
           {/* View toggle */}
@@ -758,9 +744,9 @@ export default function Page() {
               />
             ) : null
           })}
-          <div style={{ paddingLeft: 56, paddingRight: 56, marginBottom: 20 }}>
+          <div style={{ paddingLeft: 'var(--page-px)', paddingRight: 'var(--page-px)', marginBottom: 20 }}>
             <p className="text-2xl font-bold" style={{ color: '#f0ede8', marginBottom: 20, letterSpacing: '-0.01em' }}>역대 영화제 수상작</p>
-            <div className="grid" style={{ gap: 12, gridTemplateColumns: 'repeat(4, 1fr)' }}>
+            <div className="grid" style={{ gap: 12, gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))' }}>
               {AWARD_TAGS.map(tag => <FieldTile key={tag} tag={tag} />)}
             </div>
           </div>
