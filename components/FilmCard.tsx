@@ -1,6 +1,5 @@
 import Link from 'next/link'
-import Image from 'next/image'
-import { Film, getCanonicalFilmPath, getEraStyle, getPosterPlaceholder, POSTERS } from '@/data/films'
+import { Film, getCanonicalFilmPath, getEraStyle, POSTERS } from '@/data/films'
 
 export default function FilmCard({ film, large = false, priority = false, className }: {
   film: Film
@@ -23,17 +22,14 @@ export default function FilmCard({ film, large = false, priority = false, classN
     >
       <div className="relative" style={{ height: h, background: era.bg }}>
         {poster ? (
-          <Image
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
             src={poster}
             alt={film.title}
-            fill
-            sizes={large ? '(max-width: 768px) 33vw, 200px' : '148px'}
-            preload={priority}
             loading={priority ? 'eager' : 'lazy'}
+            decoding="async"
             fetchPriority={priority ? 'high' : undefined}
-            placeholder="blur"
-            blurDataURL={getPosterPlaceholder(film.year)}
-            style={{ objectFit: 'cover' }}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
           />
         ) : (
           <div className="absolute inset-0 flex flex-col justify-between" style={{ padding: 12 }}>
@@ -56,7 +52,7 @@ export default function FilmCard({ film, large = false, priority = false, classN
           style={{ background: 'rgba(0,0,0,0.88)', padding: 12, transition: 'opacity 0.2s' }}>
           <p className="text-[10px]" style={{ color: '#8a8580', marginBottom: 4 }}>{film.year}</p>
           <p className="text-[13px] font-medium leading-snug" style={{ color: '#f0ede8', marginBottom: 6 }}>{film.title}</p>
-          <p className="text-[11px] leading-relaxed" style={{ color: '#8a8580' }}>{film.description}</p>
+          <p className="text-[11px] leading-relaxed" style={{ color: '#8a8580' }}>{film.keyword}</p>
         </div>
       </div>
       <div style={{ paddingLeft: 10, paddingRight: 10, paddingTop: 6, paddingBottom: 6, background: '#0f0f0f' }}>

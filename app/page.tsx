@@ -18,6 +18,7 @@ const ART_MOVEMENT_TAGS: FieldTag[] = [
 ]
 
 const INDUSTRY_TAGS: FieldTag[] = ['스튜디오시대', '뉴할리우드', '블록버스터', '인디필름', '스트리밍']
+const HOME_ROW_LIMIT = 12
 
 const AWARD_TROPHY_IMG: Partial<Record<FieldTag, string>> = {
   '아카데미': '/trophies/oscar.svg',
@@ -154,7 +155,7 @@ export default function Page() {
         return films.length > 0 ? (
           <FilmRow
             key={tag}
-            films={films}
+            films={films.slice(0, HOME_ROW_LIMIT)}
             label={FIELDS[tag].label}
             era={FIELDS[tag].era}
             desc={FIELDS[tag].desc}
@@ -184,7 +185,7 @@ export default function Page() {
         return films.length > 0 ? (
           <FilmRow
             key={tag}
-            films={films}
+            films={films.slice(0, HOME_ROW_LIMIT)}
             label={FIELDS[tag].label}
             era={FIELDS[tag].era}
             desc={FIELDS[tag].desc}

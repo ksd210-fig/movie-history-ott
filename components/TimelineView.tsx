@@ -1,6 +1,5 @@
-import Image from 'next/image'
 import Link from 'next/link'
-import { Film, getCanonicalFilmPath, getPosterPlaceholder, POSTERS } from '@/data/films'
+import { Film, getCanonicalFilmPath, POSTERS } from '@/data/films'
 
 export default function TimelineView({ films }: { films: Film[] }) {
   const sorted = [...films].sort((a, b) => a.year - b.year)
@@ -28,7 +27,7 @@ export default function TimelineView({ films }: { films: Film[] }) {
             {decadeFilms.map((film, filmIndex) => {
               const poster = POSTERS[film.id]
               const isLast = filmIndex === decadeFilms.length - 1
-              const shouldPreload = decadeIndex === 0 && filmIndex < 4
+              const isPriority = decadeIndex === 0 && filmIndex < 4
               const href = getCanonicalFilmPath(film)
 
               return (
@@ -48,17 +47,14 @@ export default function TimelineView({ films }: { films: Film[] }) {
                         style={{ background: '#111', border: '1px solid #1e1e1e', height: 96 }}>
                         <div className="flex-none relative" style={{ width: 64, height: 96 }}>
                           {poster ? (
-                            <Image
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img
                               src={poster}
                               alt={film.title}
-                              fill
-                              sizes="64px"
-                              preload={shouldPreload}
-                              loading={shouldPreload ? 'eager' : 'lazy'}
-                              fetchPriority={shouldPreload ? 'high' : undefined}
-                              placeholder="blur"
-                              blurDataURL={getPosterPlaceholder(film.year)}
-                              style={{ objectFit: 'cover' }}
+                              loading={isPriority ? 'eager' : 'lazy'}
+                              decoding="async"
+                              fetchPriority={isPriority ? 'high' : undefined}
+                              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
                             />
                           ) : (
                             <div className="absolute inset-0" style={{ background: '#1e1e1e' }} />
@@ -68,7 +64,7 @@ export default function TimelineView({ films }: { films: Film[] }) {
                         <div style={{ padding: 12, paddingTop: 10, display: 'flex', flexDirection: 'column', gap: 4, justifyContent: 'center' }}>
                           <p style={{ fontSize: 13, fontWeight: 500, color: '#f0ede8', lineHeight: 1.3 }}>{film.title}</p>
                           <p style={{ fontSize: 11, color: '#5a5a5a', lineHeight: 1.5 }}>
-                            {film.description.slice(0, 55)}…
+                            {film.keyword}
                           </p>
                         </div>
                       </div>
