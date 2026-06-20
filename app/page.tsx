@@ -3,7 +3,7 @@ import HeroCarousel from '@/components/HeroCarousel'
 import FilmCard from '@/components/FilmCard'
 import MainHeader from '@/components/MainHeader'
 import ScrollArrows from '@/components/ScrollArrows'
-import { ALL_FILMS, FIELDS, FieldTag, Film } from '@/data/films'
+import { ALL_FILMS, FIELDS, FieldTag, Film, getUniqueCanonicalFilms } from '@/data/films'
 
 const FIELD_GROUPS: { label: string; tags: FieldTag[] }[] = [
   { label: '기술 관점으로 보는 영화사', tags: ['편집', '촬영', '시각효과', '애니메이션'] },
@@ -27,7 +27,9 @@ const AWARD_TROPHY_IMG: Partial<Record<FieldTag, string>> = {
 }
 
 function filteredByTag(tag: FieldTag) {
-  return ALL_FILMS.filter(film => film.fields?.includes(tag)).sort((a, b) => a.year - b.year)
+  return getUniqueCanonicalFilms(
+    ALL_FILMS.filter(film => film.fields?.includes(tag))
+  ).sort((a, b) => a.year - b.year)
 }
 
 function FieldTile({ tag }: { tag: FieldTag }) {

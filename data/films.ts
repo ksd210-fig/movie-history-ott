@@ -1024,6 +1024,48 @@ export const ALL_FILMS: Film[] = [
   ...berlinFilms,
 ]
 
+// Duplicate perspective pages stay accessible, but search and internal discovery consolidate here.
+export const CANONICAL_FILM_ID: Record<string, string> = {
+  'ind-birth': 'tech-birth',
+  'ind-jazz': 'tech-jazz',
+  'ind-snow': 'tech-snow',
+  'ind-jaws': 'tech-jaws',
+  'ind-starwars': 'tech-starwars',
+  'ind-avatar': 'tech-avatar',
+  'can-parasite': 'ind-parasite',
+  'can-marty': 'osc-marty',
+  'ber-rainman': 'osc-rainman',
+  'ven-shapeofwater': 'osc-shapewater',
+}
+
+export function getCanonicalFilmId(id: string) {
+  return CANONICAL_FILM_ID[id] ?? id
+}
+
+export function getCanonicalFilmPath(filmOrId: Film | string) {
+  const id = typeof filmOrId === 'string' ? filmOrId : filmOrId.id
+  return `/films/${getCanonicalFilmId(id)}`
+}
+
+export function getCanonicalFilm(film: Film) {
+  const canonicalId = getCanonicalFilmId(film.id)
+  return ALL_FILMS.find(item => item.id === canonicalId) ?? film
+}
+
+export function getUniqueCanonicalFilms(films: Film[]) {
+  const seen = new Set<string>()
+  return films.filter(film => {
+    const canonicalId = getCanonicalFilmId(film.id)
+    if (seen.has(canonicalId)) return false
+    seen.add(canonicalId)
+    return true
+  })
+}
+
+export const CANONICAL_FILMS: Film[] = ALL_FILMS.filter(
+  film => getCanonicalFilmId(film.id) === film.id
+)
+
 export const POSTERS: Record<string, string> = {
   // Tech
   'tech-moon': 'https://image.tmdb.org/t/p/w500/9o0v5LLFk51nyTBHZSre6OB37n2.jpg',

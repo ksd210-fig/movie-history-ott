@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { ALL_FILMS, FIELDS, FieldTag } from '@/data/films'
+import { ALL_FILMS, FIELDS, FieldTag, getUniqueCanonicalFilms } from '@/data/films'
 import FilmCard from '@/components/FilmCard'
 import { SITE_NAME } from '@/data/site'
 
@@ -50,7 +50,9 @@ export default async function FieldPage({ params }: { params: FieldPageParams })
   const meta = FIELDS[tag]
   if (!meta) notFound()
 
-  const films = ALL_FILMS.filter(f => f.fields?.includes(tag)).sort((a, b) => a.year - b.year)
+  const films = getUniqueCanonicalFilms(
+    ALL_FILMS.filter(f => f.fields?.includes(tag))
+  ).sort((a, b) => a.year - b.year)
 
   return (
     <div className="min-h-screen" style={{ background: '#0a0a0a' }}>

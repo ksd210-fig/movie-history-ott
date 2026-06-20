@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { Film, getEraStyle, getPosterPlaceholder, POSTERS } from '@/data/films'
+import { Film, getCanonicalFilmPath, getEraStyle, getPosterPlaceholder, POSTERS } from '@/data/films'
 
 export default function FilmCard({ film, large = false, priority = false, className }: {
   film: Film
@@ -12,10 +12,11 @@ export default function FilmCard({ film, large = false, priority = false, classN
   const w = large ? 'var(--film-card-w)' : 148
   const h = large ? 'var(--film-card-h)' : 222
   const poster = POSTERS[film.id]
+  const href = getCanonicalFilmPath(film)
 
   return (
     <Link
-      href={`/films/${film.id}`}
+      href={href}
       className={`film-card-link flex-none rounded-lg overflow-hidden cursor-pointer block${className ? ` ${className}` : ''}`}
       aria-label={`${film.title} (${film.year}) 상세 보기`}
       style={{ width: w, border: '1px solid #2a2a2a' }}

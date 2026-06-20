@@ -2,7 +2,16 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
-import { ALL_FILMS, getEraStyle, getPosterPlaceholder, POSTERS } from '@/data/films'
+import {
+  ALL_FILMS,
+  getCanonicalFilm,
+  getCanonicalFilmId,
+  getCanonicalFilmPath,
+  getEraStyle,
+  getPosterPlaceholder,
+  getUniqueCanonicalFilms,
+  POSTERS,
+} from '@/data/films'
 import { SITE_NAME, SITE_URL } from '@/data/site'
 
 type FilmPageParams = Promise<{ id: string }>
@@ -22,8 +31,9 @@ export async function generateMetadata({ params }: { params: FilmPageParams }): 
 
   const title = `${film.title} (${film.year})`
   const description = `${film.keyword}. ${film.description}`
-  const url = `/films/${film.id}`
-  const poster = POSTERS[film.id]
+  const canonicalFilm = getCanonicalFilm(film)
+  const url = getCanonicalFilmPath(film)
+  const poster = POSTERS[film.id] ?? POSTERS[canonicalFilm.id]
 
   return {
     title,
@@ -53,12 +63,14 @@ export default async function FilmPage({ params }: { params: FilmPageParams }) {
   if (!film) notFound()
 
   const era = getEraStyle(film.year)
+  const canonicalId = getCanonicalFilmId(film.id)
+  const canonicalPath = getCanonicalFilmPath(film)
 
-  const related = ALL_FILMS.filter(f =>
-    f.id !== film.id &&
+  const related = getUniqueCanonicalFilms(ALL_FILMS.filter(f =>
+    getCanonicalFilmId(f.id) !== canonicalId &&
     Math.abs(f.year - film.year) <= 15 &&
     f.category === film.category
-  ).slice(0, 6)
+  )).slice(0, 6)
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -67,7 +79,7 @@ export default async function FilmPage({ params }: { params: FilmPageParams }) {
     datePublished: String(film.year),
     description: film.description,
     image: POSTERS[film.id],
-    url: `${SITE_URL}/films/${film.id}`,
+    url: `${SITE_URL}${canonicalPath}`,
   }
 
   return (
@@ -185,7 +197,7 @@ export default async function FilmPage({ params }: { params: FilmPageParams }) {
             {related.map(f => {
               const s = getEraStyle(f.year)
               return (
-                <Link key={f.id} href={`/films/${f.id}`} className="group block rounded-lg overflow-hidden"
+                <Link key={f.id} href={getCanonicalFilmPath(f)} className="group block rounded-lg overflow-hidden"
                   aria-label={`${f.title} (${f.year}) 상세 보기`}
                   style={{ width: 144, border: '1px solid #2a2a2a' }}>
                   <div className="relative" style={{ height: 208, background: s.bg }}>

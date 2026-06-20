@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next'
-import { ALL_FILMS, FIELDS, FieldTag } from '@/data/films'
+import { CANONICAL_FILMS, FIELDS, FieldTag } from '@/data/films'
 import { SITE_URL } from '@/data/site'
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -25,7 +25,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly' as const,
       priority: 0.7,
     })),
-    ...ALL_FILMS.map(film => ({
+    ...CANONICAL_FILMS.map(film => ({
       url: `${SITE_URL}/films/${film.id}`,
       lastModified: now,
       changeFrequency: 'monthly' as const,

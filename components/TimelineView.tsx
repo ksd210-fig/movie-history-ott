@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { Film, getPosterPlaceholder, POSTERS } from '@/data/films'
+import { Film, getCanonicalFilmPath, getPosterPlaceholder, POSTERS } from '@/data/films'
 
 export default function TimelineView({ films }: { films: Film[] }) {
   const sorted = [...films].sort((a, b) => a.year - b.year)
@@ -29,6 +29,7 @@ export default function TimelineView({ films }: { films: Film[] }) {
               const poster = POSTERS[film.id]
               const isLast = filmIndex === decadeFilms.length - 1
               const shouldPreload = decadeIndex === 0 && filmIndex < 4
+              const href = getCanonicalFilmPath(film)
 
               return (
                 <div key={film.id} className="flex" style={{ gap: 0 }}>
@@ -42,7 +43,7 @@ export default function TimelineView({ films }: { films: Film[] }) {
                   </div>
 
                   <div style={{ flex: 1, paddingBottom: isLast ? 0 : 16, paddingTop: 4, paddingLeft: 16 }}>
-                    <Link href={`/films/${film.id}`} aria-label={`${film.title} (${film.year}) 상세 보기`}>
+                    <Link href={href} aria-label={`${film.title} (${film.year}) 상세 보기`}>
                       <div className="timeline-card flex rounded-xl overflow-hidden"
                         style={{ background: '#111', border: '1px solid #1e1e1e', height: 96 }}>
                         <div className="flex-none relative" style={{ width: 64, height: 96 }}>
