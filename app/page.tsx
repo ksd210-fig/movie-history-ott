@@ -166,9 +166,9 @@ export default function Page() {
         <h2 className="text-2xl font-bold" style={{ color: '#f0ede8', marginBottom: 20, letterSpacing: '-0.01em', paddingLeft: 'var(--page-px)' }}>
           역대 영화제 수상작
         </h2>
-        <div className="flex scroll-hide" style={{ overflowX: 'auto', gap: 12, paddingLeft: 'var(--page-px)', paddingRight: 'var(--page-px)' }}>
+        <div className="grid" style={{ gap: 12, gridTemplateColumns: 'var(--award-grid-cols)', paddingLeft: 'var(--page-px)', paddingRight: 'var(--page-px)' }}>
           {AWARD_TAGS.map(tag => (
-            <div key={tag} style={{ flexShrink: 0, width: 'var(--award-tile-w)' }}>
+            <div key={tag}>
               <FieldTile tag={tag} />
             </div>
           ))}

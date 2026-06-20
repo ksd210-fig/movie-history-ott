@@ -11,15 +11,17 @@ const HERO_SLIDES = [
     bg: 'linear-gradient(135deg, #0d0f1a 0%, #0a0a0a 65%)',
     accent: '#4a6fa5',
     cta: null as string | null,
+    ctaLabel: null as string | null,
   },
   {
     id: 'fig1',
     title: 'Fig.1',
-    subtitle: '역사로 읽는 미디어',
-    description: '역사 속 맥락으로 현재를 이해하는 1인 크리에이터 미디어. 유튜브·인스타그램·출판물로 이야기를 만듭니다.',
+    subtitle: '',
+    description: '역사를 기반으로 다양한 프로젝트를 만듭니다',
     bg: 'linear-gradient(135deg, #140f0a 0%, #0a0a0a 65%)',
     accent: '#e8630a',
-    cta: 'https://www.youtube.com/@fig1_history' as string | null,
+    cta: 'https://www.fig1.kr' as string | null,
+    ctaLabel: 'Fig.1의 다른 프로젝트 보러가기 →',
   },
 ]
 
@@ -52,9 +54,11 @@ export default function HeroCarousel() {
         style={{ background: 'linear-gradient(to bottom, transparent, #0a0a0a)' }} />
 
       <div className="relative z-10 flex flex-col justify-end h-full" style={{ paddingLeft: 'var(--page-px)', paddingBottom: 64, maxWidth: 600 }}>
-        <span className="text-xs font-medium tracking-widest" style={{ color: slide.accent, marginBottom: 16 }}>
-          {slide.subtitle}
-        </span>
+        {slide.subtitle && (
+          <span className="text-xs font-medium tracking-widest" style={{ color: slide.accent, marginBottom: 16 }}>
+            {slide.subtitle}
+          </span>
+        )}
 
         <h2 className="text-3xl md:text-5xl font-semibold leading-tight" style={{ color: '#f0ede8', letterSpacing: '-0.02em', marginBottom: 20 }}>
           {slide.title}
@@ -66,10 +70,10 @@ export default function HeroCarousel() {
 
         {slide.cta && (
           <a href={slide.cta} target="_blank" rel="noopener noreferrer"
-            aria-label="Fig.1 유튜브 채널 새 탭에서 보기"
+            aria-label={slide.ctaLabel ?? 'Fig.1 새 탭에서 보기'}
             className="inline-flex items-center self-start transition-opacity hover:opacity-80"
             style={{ background: '#f0ede8', color: '#0a0a0a', gap: 8, paddingLeft: 24, paddingRight: 24, paddingTop: 12, paddingBottom: 12, borderRadius: 8, fontSize: 14, fontWeight: 500, textDecoration: 'none' }}>
-            Fig.1 보러가기 →
+            {slide.ctaLabel ?? 'Fig.1 보러가기 →'}
           </a>
         )}
       </div>

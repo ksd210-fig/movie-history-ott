@@ -18,7 +18,7 @@
   --film-card-w: 200px;
   --film-card-h: 300px;
   --field-grid-cols: repeat(4, 1fr);
-  --award-tile-w: calc((100vw - 112px - 36px) / 4);
+  --award-grid-cols: repeat(4, minmax(0, 1fr));
 }
 
 @media (max-width: 768px) {
@@ -27,7 +27,7 @@
     --film-card-w: calc((100vw - 64px) / 3);
     --film-card-h: calc((100vw - 64px) / 2);
     --field-grid-cols: repeat(2, 1fr);
-  --award-tile-w: calc((100vw - 40px - 36px) / 2);
+    --award-grid-cols: repeat(2, minmax(0, 1fr));
   }
 
   /* 히어로 */
@@ -46,6 +46,12 @@
   .row-fade {
     -webkit-mask-image: none;
     mask-image: none;
+  }
+}
+
+@media (max-width: 520px) {
+  :root {
+    --award-grid-cols: 1fr;
   }
 }
 
