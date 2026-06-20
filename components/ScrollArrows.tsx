@@ -19,11 +19,12 @@ export default function ScrollArrows({ targetId, label }: { targetId: string; la
     const el = getTarget()
     if (!el) return
 
-    updateArrows()
+    const frameId = window.requestAnimationFrame(updateArrows)
     el.addEventListener('scroll', updateArrows, { passive: true })
     window.addEventListener('resize', updateArrows)
 
     return () => {
+      window.cancelAnimationFrame(frameId)
       el.removeEventListener('scroll', updateArrows)
       window.removeEventListener('resize', updateArrows)
     }

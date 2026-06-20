@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "next dev --port 3334",
     "build": "next build",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
     "start": "next start"
   },
   "dependencies": {
