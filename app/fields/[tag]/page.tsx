@@ -8,7 +8,7 @@ import { SITE_NAME } from '@/data/site'
 type FieldPageParams = Promise<{ tag: string }>
 
 export function generateStaticParams() {
-  return (Object.keys(FIELDS) as FieldTag[]).map(tag => ({ tag: encodeURIComponent(tag) }))
+  return (Object.keys(FIELDS) as FieldTag[]).map(tag => ({ tag }))
 }
 
 export async function generateMetadata({ params }: { params: FieldPageParams }): Promise<Metadata> {
