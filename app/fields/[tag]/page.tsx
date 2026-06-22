@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { ALL_FILMS, FIELDS, FieldTag, getUniqueCanonicalFilms } from '@/data/films'
+import { ALL_FILMS, FIELDS, FIELD_TROPHY_IMAGES, FieldTag, getUniqueCanonicalFilms } from '@/data/films'
 import FilmCard from '@/components/FilmCard'
 import { SITE_NAME } from '@/data/site'
 
@@ -49,6 +49,7 @@ export default async function FieldPage({ params }: { params: FieldPageParams })
   const tag = decodeURIComponent(rawTag) as FieldTag
   const meta = FIELDS[tag]
   if (!meta) notFound()
+  const trophySrc = FIELD_TROPHY_IMAGES[tag]
 
   const films = getUniqueCanonicalFilms(
     ALL_FILMS.filter(f => f.fields?.includes(tag))
@@ -72,11 +73,26 @@ export default async function FieldPage({ params }: { params: FieldPageParams })
 
       {/* Hero */}
       <div className="relative overflow-hidden" style={{ minHeight: '300px', background: meta.bg }}>
-        <svg viewBox="0 0 1200 300" className="absolute inset-0 w-full h-full opacity-20" preserveAspectRatio="xMidYMid slice">
-          <path d={meta.shape} fill={meta.accent} transform="scale(5, 1.5)" />
-        </svg>
+        {trophySrc ? (
+          <>
+            <div className="absolute pointer-events-none" style={{
+              right: 0, top: 0, bottom: 0, width: '58%',
+              background: `radial-gradient(ellipse at 70% 48%, ${meta.accent}28 0%, ${meta.accent}08 46%, transparent 74%)`,
+            }} />
+            <div className="absolute pointer-events-none" style={{ right: '10%', top: 0, bottom: 0, display: 'flex', alignItems: 'center' }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={trophySrc} alt="" style={{ height: 210, maxWidth: 340, width: 'auto', objectFit: 'contain', opacity: 0.34, filter: 'drop-shadow(0 8px 40px rgba(0,0,0,0.65))' }} />
+            </div>
+          </>
+        ) : (
+          <svg viewBox="0 0 1200 300" className="absolute inset-0 w-full h-full opacity-20" preserveAspectRatio="xMidYMid slice">
+            <path d={meta.shape} fill={meta.accent} transform="scale(5, 1.5)" />
+          </svg>
+        )}
         <div className="absolute inset-0" style={{
-          background: `linear-gradient(135deg, ${meta.bg}ee 0%, transparent 60%)`,
+          background: trophySrc
+            ? `linear-gradient(to right, ${meta.bg} 0%, ${meta.bg}ee 44%, ${meta.bg}9a 68%, transparent 100%)`
+            : `linear-gradient(135deg, ${meta.bg}ee 0%, transparent 60%)`,
         }} />
         <div className="absolute bottom-0 left-0 right-0 h-32"
           style={{ background: `linear-gradient(to bottom, transparent, #0a0a0a)` }} />

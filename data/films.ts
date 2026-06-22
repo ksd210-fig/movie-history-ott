@@ -105,6 +105,13 @@ export const FIELDS: Record<FieldTag, { label: string; desc: string; era?: strin
   },
 }
 
+export const FIELD_TROPHY_IMAGES: Partial<Record<FieldTag, string>> = {
+  '아카데미': '/trophies/oscar.svg',
+  '칸': '/trophies/palme.svg',
+  '베니스': '/trophies/lion.svg',
+  '베를린': '/trophies/bear.svg',
+}
+
 const nf = (q: string): StreamingLink => ({ platform: 'netflix', url: `https://www.netflix.com/search?q=${encodeURIComponent(q)}` })
 const wa = (q: string): StreamingLink => ({ platform: 'watcha', url: `https://watcha.com/search?query=${encodeURIComponent(q)}` })
 const dp = (q: string): StreamingLink => ({ platform: 'disney', url: `https://www.disneyplus.com/search/${encodeURIComponent(q)}` })
@@ -1262,6 +1269,7 @@ export const POSTERS: Record<string, string> = {
   'can-blowup':        'https://image.tmdb.org/t/p/w500/jVDVpydUw8Z50naUDAG4NbRCrSa.jpg',
   'can-mash':          'https://image.tmdb.org/t/p/w500/on8Q9LhtHYNhmITjUMpgOUkIG8o.jpg',
   'can-conversation':  'https://image.tmdb.org/t/p/w500/dHqVBwcv1SGymOpUueRoKzcmdes.jpg',
+  'can-chronicle':     '/posters/can-chronicle.jpg',
   'can-taxidriver':    'https://image.tmdb.org/t/p/w500/ekstpH614fwDX8DUln1a2Opz0N8.jpg',
   'can-narayama':      'https://image.tmdb.org/t/p/w500/h3iNimtw6HsFTtAvEDF3XYZ4Y5T.jpg',
   'can-apocalypse':    'https://image.tmdb.org/t/p/w500/gQB8Y5RCMkv2zwzFHbUJX3kAhvA.jpg',
@@ -1372,6 +1380,7 @@ export const POSTERS: Record<string, string> = {
   'ven-marienbad':        'https://image.tmdb.org/t/p/w500/syIJCqiSkGRJTlyaBtyI5jqPtE7.jpg',
   'ven-reddesert':        'https://image.tmdb.org/t/p/w500/rGcTVdyhaGzMxPPRVApXre6F7SD.jpg',
   'ven-battleofalgiers':  'https://image.tmdb.org/t/p/w500/2p3AFtOHFvP6OeVMqlnL1zLKOqL.jpg',
+  'ven-artists':          '/posters/ven-artists.jpg',
   'ven-belledejour':      'https://image.tmdb.org/t/p/w500/iUAFECovwPA0cVV9bo4uNGLJSGL.jpg',
   'ven-cityofsadness':    'https://image.tmdb.org/t/p/w500/n1aIYLgnrlsUrh77G2OdQT9NV1.jpg',
   'ven-vagabond':         'https://image.tmdb.org/t/p/w500/2KFfwiPct1hwqi9dkKqoom0BenC.jpg',
@@ -1418,6 +1427,7 @@ export const POSTERS: Record<string, string> = {
   'ber-redsorghum':       'https://image.tmdb.org/t/p/w500/2CP2eazEBKJ3njm4HM63pMfs5tW.jpg',
   'ber-rainman':          'https://image.tmdb.org/t/p/w500/iTNHwO896WKkaoPtpMMS74d8VNi.jpg',
   'ber-weddingbanquet':   'https://image.tmdb.org/t/p/w500/arWCA8lg0rbdlwHUMvI46LNDhnL.jpg',
+  'ber-lappat':           '/posters/ber-lappat.jpg',
   'ber-sensibility':      'https://image.tmdb.org/t/p/w500/cBK2yL3HqhFvIVd7lLtazWlRZPR.jpg',
   'ber-peoplevsflynt':    'https://image.tmdb.org/t/p/w500/sAgHn7ys6TiVXBDTZ0UBEjinIUk.jpg',
   'ber-centralstation':   'https://image.tmdb.org/t/p/w500/zJvp7XjQ2LhPbDVYhFXyucs40vR.jpg',

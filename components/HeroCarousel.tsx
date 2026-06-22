@@ -7,7 +7,7 @@ const HERO_SLIDES = [
     id: 'intro',
     title: '영화의 역사',
     subtitle: 'Movie History',
-    description: '산업·기술·예술 세 관점으로 본 영화 100년. 스튜디오 시스템부터 스트리밍까지, 영화사의 결정적 순간들을 모았습니다.',
+    description: '영화의 역사를 정주행하는 OTT. 무성영화부터 스트리밍까지. 산업, 기술, 예술이 만들어낸 영화사의 중요한 작품들을 한곳에 모았습니다',
     bg: 'linear-gradient(135deg, #0d0f1a 0%, #0a0a0a 65%)',
     accent: '#4a6fa5',
     cta: null as string | null,
@@ -25,7 +25,9 @@ const HERO_SLIDES = [
   },
 ]
 
-export default function HeroCarousel() {
+export default function HeroCarousel({ oldestPoster }: {
+  oldestPoster?: string
+}) {
   const [idx, setIdx] = useState(0)
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
@@ -39,17 +41,29 @@ export default function HeroCarousel() {
   }, [idx])
 
   const slide = HERO_SLIDES[idx]
+  const showPosterBackground = slide.id === 'intro' && oldestPoster
 
   return (
     <div className="relative overflow-hidden hero-carousel" style={{ height: '520px' }}>
       <div key={slide.id} className="absolute inset-0" style={{ background: slide.bg }} />
 
-      <div className="absolute right-0 top-0 bottom-0 w-1/2 pointer-events-none overflow-hidden">
-        <svg viewBox="0 0 600 520" className="w-full h-full" preserveAspectRatio="xMaxYMid slice" style={{ opacity: 0.06 }}>
-          <circle cx="480" cy="180" r="300" fill={slide.accent} />
-          <circle cx="280" cy="420" r="160" fill={slide.accent} />
-        </svg>
-      </div>
+      {showPosterBackground ? (
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute right-0 top-0 bottom-0 w-1/2 overflow-hidden">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={oldestPoster} alt="" className="w-full h-full" style={{ objectFit: 'cover', opacity: 0.44, filter: 'saturate(0.9)' }} />
+          </div>
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(10,10,10,0.98) 0%, rgba(10,10,10,0.9) 45%, rgba(10,10,10,0.56) 72%, rgba(10,10,10,0.86) 100%)' }} />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(10,10,10,0.08) 0%, rgba(10,10,10,0.42) 68%, #0a0a0a 100%)' }} />
+        </div>
+      ) : (
+        <div className="absolute right-0 top-0 bottom-0 w-1/2 pointer-events-none overflow-hidden">
+          <svg viewBox="0 0 600 520" className="w-full h-full" preserveAspectRatio="xMaxYMid slice" style={{ opacity: 0.06 }}>
+            <circle cx="480" cy="180" r="300" fill={slide.accent} />
+            <circle cx="280" cy="420" r="160" fill={slide.accent} />
+          </svg>
+        </div>
+      )}
       <div className="absolute bottom-0 left-0 right-0 h-28 pointer-events-none"
         style={{ background: 'linear-gradient(to bottom, transparent, #0a0a0a)' }} />
 

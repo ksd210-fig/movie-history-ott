@@ -3,7 +3,7 @@ import HeroCarousel from '@/components/HeroCarousel'
 import FilmCard from '@/components/FilmCard'
 import MainHeader from '@/components/MainHeader'
 import ScrollArrows from '@/components/ScrollArrows'
-import { ALL_FILMS, FIELDS, FieldTag, Film, getUniqueCanonicalFilms } from '@/data/films'
+import { ALL_FILMS, FIELDS, FIELD_TROPHY_IMAGES, FieldTag, Film, getUniqueCanonicalFilms, POSTERS } from '@/data/films'
 
 const FIELD_GROUPS: { label: string; tags: FieldTag[] }[] = [
   { label: '기술 관점으로 보는 영화사', tags: ['편집', '촬영', '시각효과', '애니메이션'] },
@@ -20,22 +20,23 @@ const ART_MOVEMENT_TAGS: FieldTag[] = [
 const INDUSTRY_TAGS: FieldTag[] = ['스튜디오시대', '뉴할리우드', '블록버스터', '인디필름', '스트리밍']
 const HOME_ROW_LIMIT = 12
 
-const AWARD_TROPHY_IMG: Partial<Record<FieldTag, string>> = {
-  '아카데미': '/trophies/oscar.svg',
-  '칸': '/trophies/palme.svg',
-  '베니스': '/trophies/lion.svg',
-  '베를린': '/trophies/bear.svg',
-}
-
 function filteredByTag(tag: FieldTag) {
   return getUniqueCanonicalFilms(
     ALL_FILMS.filter(film => film.fields?.includes(tag))
   ).sort((a, b) => a.year - b.year)
 }
 
+function getOldestPoster() {
+  const filmsWithPosters = getUniqueCanonicalFilms(ALL_FILMS)
+    .filter(film => POSTERS[film.id])
+    .sort((a, b) => a.year - b.year)
+
+  return filmsWithPosters[0] ? POSTERS[filmsWithPosters[0].id] : undefined
+}
+
 function FieldTile({ tag }: { tag: FieldTag }) {
   const meta = FIELDS[tag]
-  const trophySrc = AWARD_TROPHY_IMG[tag]
+  const trophySrc = FIELD_TROPHY_IMAGES[tag]
 
   return (
     <Link
@@ -140,13 +141,15 @@ function FilmRow({ films, label, era, desc, moreHref, priorityCount = 0 }: {
 }
 
 export default function Page() {
+  const oldestPoster = getOldestPoster()
+
   return (
     <div className="min-h-screen" style={{ background: '#0a0a0a' }}>
       <MainHeader view="home" />
 
       <h1 className="sr-only">영화의 역사</h1>
 
-      <HeroCarousel />
+      <HeroCarousel oldestPoster={oldestPoster} />
 
       <div style={{ marginTop: 64 }} />
 
